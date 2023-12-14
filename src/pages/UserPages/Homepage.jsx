@@ -18,7 +18,7 @@ function Homepage() {
       <About/>
       <Services/>
       <Projects/>
-      <Interior/>
+      {/* <Interior/> */}
       <Contact/>
       <Footer/>
     </div>
