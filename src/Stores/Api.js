@@ -1,3 +1,9 @@
-export const userApi ='https://poduppilconstructions.onrender.com/'
+require("dotenv").config();
 
-export const adminApi ='https://poduppilconstructions.onrender.com/admin/'
+
+
+
+
+export const userApi =process.env.BackendLink
+
+export const adminApi =process.env.BackendAdminLink
