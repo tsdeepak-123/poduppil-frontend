@@ -1,4 +1,4 @@
-export const userApi ='https://backend.poduppilconstructions.com/'
+export const userApi ='https://poduppilconstructions.onrender.com/'
 
 
-export const adminApi ='https://backend.poduppilconstructions.com/admin/'
+export const adminApi ='https://poduppilconstructions.onrender.com/admin/'
