@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Footer from "../../AdminComponents/Footer/Footer"
 import Buttons from '../../CommonComponents/Button/Buttons';
 import { useNavigate } from 'react-router-dom';
 import TextFields from '../../CommonComponents/TextFields/TextFields';
@@ -74,7 +75,7 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className='flex flex-col justify-between h-screen '>
       <Toaster position='top-center' reverseOrder={false}/>
       <div className="flex flex-col items-center">
         <img
@@ -102,6 +103,7 @@ function Login() {
           </div>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 }

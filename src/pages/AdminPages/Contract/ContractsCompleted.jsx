@@ -11,7 +11,6 @@ function ContractsCompleted() {
    <div className='mt-72'>
    <Footer/>
    </div>
- 
     </div>
   )
 }

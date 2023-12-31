@@ -7,15 +7,14 @@ import { Button, CardActionArea, CardActions } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 
 function ItemCard({classes,name,discription,navigation}) {
-  const navigate=useNavigate()
+  const cardStyle = {
+    maxWidth: 345, 
+    width: '100%', 
+    height: 170, 
+  };
   return (
-    <Card sx={{ maxWidth: 345 }} className={classes}>
+    <Card sx={cardStyle} className={classes}>
     <CardActionArea>
-      {/* <CardMedia
-        component="img"
-        image="/Images/Labour.jpg"
-        alt="green iguana"
-      /> */}
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
           {name}

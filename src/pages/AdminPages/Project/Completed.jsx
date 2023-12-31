@@ -8,10 +8,7 @@ function Completed() {
     <div>
         <Header headers='COMPLETED PROJECTS'/>
         <CompletedProjects/>
-        <div className='mt-80'>
-        <Footer/>
-        </div>
-        
+        <Footer/>     
     </div>
   )
 }

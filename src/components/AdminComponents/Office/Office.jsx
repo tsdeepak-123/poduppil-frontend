@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate} from "react-router-dom"
 import ItemCard from '../../CommonComponents/Card/ItemCard'
 import ReturnButton from "../../CommonComponents/Return/ReturnButton"
-
+import Footer from "../../AdminComponents/Footer/Footer"
 function Office() {
     const navigate= useNavigate()
 
@@ -30,14 +30,18 @@ function Office() {
   return (
     <>
 <ReturnButton/>
-<div className='flex flex-wrap mx-auto'>
+<div className='flex flex-col justify-between h-screen'>
+<div className='grid grid-cols-1 px- sm:grid-cols-2  md:grid-cols-3 mt-14'>
       <ItemCard classes={'mx-auto mt-8'} name="ATTENDANCE" discription="" navigation={handleAttendance}/>
       <ItemCard classes={'mx-auto mt-8'} name="UTILITY BILLS" discription="" navigation={handleUtilitybills}/>
       <ItemCard classes={'mx-auto mt-8'} name="SALARY MANAGEMENT" discription="" navigation={handleSalaryClick}/>
       <ItemCard classes={'mx-auto mt-8'} name="RECIEVED CASH" discription="" navigation={handleRecievedCash}/>
       <ItemCard classes={'mx-auto mt-8'} name="USER HOME CONTROLL" discription="" navigation={handleUserHome}/>
       <ItemCard classes={'mx-auto mt-8'} name="ADMIN ACCOUNT" discription="" navigation={ handleAdminAccount}/>
-
+    </div>
+    <div className='mt-4'>
+      <Footer/>
+    </div>
     </div>
 </>
   )

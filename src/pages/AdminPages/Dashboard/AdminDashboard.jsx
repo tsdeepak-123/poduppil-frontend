@@ -7,12 +7,7 @@ function AdminDashboard() {
   return (
     <div >
       <Header headers="DASHBOARD"/>
-        <Dashboard/>
-        <div className='mt-8'>
-        <Footer/>
-        </div>
-     
-      
+        <Dashboard/>  
     </div>
   )
 }

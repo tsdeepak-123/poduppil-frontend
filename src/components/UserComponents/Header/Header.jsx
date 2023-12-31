@@ -151,14 +151,14 @@ function Header() {
                   className="h-[400px] md:h-[100vh] object-cover"
                 />
                 <div
-                  className="absolute z-40 top-[30%] left-0 flex flex-col justify-center h-fit "
+                  className="absolute z-40 top-[50%]  sm:top-[30%] flex items-center flex-col justify-center h-fit w-full "
                   id="home"
                 >
-                  <div className="flex flex-col justify-center items-center md:ml-8 lg:ml-40">
-                    <h1 className="text-4xl md:text-8xl font-extrabold text-yellow-500">
+                  <div className="flex flex-col justify-center items-center w-full">
+                    <h1 className="text-4xl md:text-8xl text-center font-extrabold text-yellow-500">
                       PODUPPIL
                     </h1>
-                    <h1 className="text-4xl md:text-8xl font-extrabold">
+                    <h1 className="text-4xl md:text-8xl text-center font-extrabold">
                       <span className="bg-gradient-to-r from-yellow-500 to-red-500 text-transparent bg-clip-text">
                         CONSTRUCTIONS
                       </span>

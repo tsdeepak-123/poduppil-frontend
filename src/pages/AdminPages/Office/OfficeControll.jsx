@@ -8,10 +8,6 @@ function OfficeControll() {
     <div>
        <Header headers="OFFICE MANAGEMENT"/>
       <Office/>
-      <div className='mt-14'> 
-      <Footer/>
-      </div>
-      
     </div>
   )
 }
