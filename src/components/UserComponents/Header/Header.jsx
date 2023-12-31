@@ -18,7 +18,7 @@ function Header() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [])
 
   const filteredBanners = bannerData.filter((banner) => !banner.IsBlocked);
 
@@ -71,7 +71,7 @@ function Header() {
             <button
               id="mobileMenuButton"
               onClick={toggleMobileMenu}
-              className="transition ease-in delay-150 text-white hover:text-yellow-500"
+              className="transition ease-in delay-150 text-amber-950 hover:text-yellow-500"
             >
               <svg
                 fill="none"
@@ -148,7 +148,7 @@ function Header() {
                 <img
                   src={banner.photo}
                   alt={`Banner ${index + 1}`}
-                  className="sm:max-h-[680px] object-cover"
+                  className="h-[400px] md:h-[100vh] object-cover"
                 />
                 <div
                   className="absolute z-40 top-[30%] left-0 flex flex-col justify-center h-fit "

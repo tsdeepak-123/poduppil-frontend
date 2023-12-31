@@ -19,7 +19,6 @@ function Header({ headers }) {
   }
   return (
     <div>
-
       <header className='flex justify-between fixed top-0 w-full z-50'>
         <div>
           <div className='w-[150px] h-auto'>
@@ -32,7 +31,6 @@ function Header({ headers }) {
             <span className='hidden md:inline-block'> LOGOUT</span>
           </Button>
         </div>
-
       </header>
     </div>
   )

@@ -20,18 +20,18 @@ function Profile() {
   const filteredOwners = OwnerData.filter(owner => !owner.IsBlocked);
   return (
     <div className="pt-4 md:pt-24">
-      <h1 className="text-2xl md:text-5xl font-extrabold ml-5 md:ml-64">
-      Meet Ratheeb P, Our Visionary Leader
+      <h1 className="text-2xl md:text-5xl font-extrabold ml-5 md:px-16">
+      Meet Ratheeb Poduppil, Our Visionary Leader
       </h1>
 
-      <div className="container md:ml-32 px-6 text-gray-600 md:px-12 xl:px-6 mt-14">
+      <div className="container md:pr-4 md:pl-14 px-6 text-gray-600 mt-14">
         <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
           <div className="md:w-7/12 lg:w-6/12">
             <p className="mt-6 text-gray-700">
              <span className='font-bold'>
              Founder & CEO, Poduppil Constructions
                 </span>&nbsp;:
-              Hey there! I'm Ratheeb P, the brain behind Poduppil Constructions—the go-to construction company for top-notch commercial and residential projects, tender works, and road infrastructure developments. We're all about bringing dreams to life, one brick at a time!<br></br>
+              Hey there! I'm Ratheeb Poduppil, the brain behind Poduppil Constructions—the go-to construction company for top-notch commercial and residential projects, tender works, and road infrastructure developments. We're all about bringing dreams to life, one brick at a time!<br></br>
               <br>
               </br>
               <span className='font-bold'>My Construction Journey :</span>

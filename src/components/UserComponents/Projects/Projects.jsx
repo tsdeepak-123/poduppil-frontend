@@ -22,7 +22,7 @@ function Projects() {
     <div id="Projects">
       <p className="text-2xl md:text-5xl font-extrabold ml-5 md:ml-80 mb-6">OUR PROJECTS</p>
 
-      <div className="container max-w-7xl flex mx-auto mt-14">
+      <div className="container mx-auto mt-14">
         <div className="flex flex-wrap">
           {
            filteredProjects && filteredProjects?.map((project)=>(

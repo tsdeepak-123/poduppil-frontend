@@ -10,7 +10,7 @@ function ProjectCard({name,image}) {
                             class="w-full h-80"
                             />
                         <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center h-32 cursor-pointer">
-                            <h3 class="font-bold text-2xl mb-4 block">{name}</h3>
+                            <h3 class="font-roboto-condensed text-2xl mb-4 block">{name}</h3>
                         </div>
                     </div>
                 </div>
