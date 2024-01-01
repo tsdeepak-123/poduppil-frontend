@@ -39,10 +39,10 @@ function AttendanceEdit({labourData}) {
         e.preventDefault()
         const response=await axiosAdmin.post('labourAttendanceEdit',{status:selectedValues,labourId:labourData?._id})
         if(response?.data?.success){
+          console.log("response",response);
           handleClose()
           toast.success("Labour attandence Edited successfully")
         }
-        toast.error(response?.data?.messege)
       } catch (error) {
         toast.error(error?.response?.data?.messege)
         if (error.response && error.response.status === 401) {

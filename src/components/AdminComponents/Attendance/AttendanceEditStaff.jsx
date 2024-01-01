@@ -37,9 +37,8 @@ function AttendanceEditStaff({staffData}) {
         const response=await axiosAdmin.post('staffAttendanceEdit',{status:selectedValues,staffId:staffData?._id})
         if(response?.data?.success){
           handleClose()
-          toast.success("Labour attandence Edited successfully")
+          toast.success("Staff attandence Edited successfully")
         }
-        toast.error(response?.data?.messege)
       } catch (error) {
         toast.error(error?.response?.data?.messege)
         if (error.response && error.response.status === 401) {

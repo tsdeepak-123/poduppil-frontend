@@ -70,6 +70,9 @@ function Labour() {
             <thead class="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="px-6 py-3">
+                  Sl.No
+                </th>
+                <th scope="col" class="px-6 py-3">
                   Labour name
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -100,11 +103,17 @@ function Labour() {
             </thead>
             <tbody>
               {filteredLabourData && filteredLabourData.length > 0 ? (
-                filteredLabourData.map((obj) => (
+                filteredLabourData.map((obj,index) => (
                   <tr
                     key={obj._id}
                     class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
                   >
+                    <th
+                      scope="row"
+                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {index+1}
+                    </th>
                     <th
                       scope="row"
                       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"

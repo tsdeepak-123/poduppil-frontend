@@ -6,6 +6,7 @@ import FormatDate from "../../../utils/FormatDate";
 import ReturnButton from "../../CommonComponents/Return/ReturnButton";
 import AttendanceEdit from "../Attendance/AttendanceEdit";
 import Loading from "../../CommonComponents/Loading/Loading";
+import EditIcon from '@mui/icons-material/Edit';
 
 function Profile() {
   const navigate = useNavigate();
@@ -78,6 +79,10 @@ function Profile() {
                           alt="photo"
                         />
                       </div>
+                      <div className="flex justify-end">
+                      <EditIcon className="text-blue-500 cursor-pointer"/>
+                      </div>
+                      
                     </div>
                     <div class="w-full md:w-9/12 md:mx-2">
                       <div class="grid grid-cols-2">
@@ -134,6 +139,9 @@ function Profile() {
                   </span>
                   <span class="tracking-wide">Aadhar</span>
                 </div>
+                     <div className="flex justify-end">
+                      <EditIcon className="text-blue-500 cursor-pointer"/>
+                      </div>
                 <div class="md:flex no-wrap md:-mx-2">
                   <div class="w-full md:w-6/12 md:mx-2">
                     <div class="image overflow-hidden py-3 px-3">

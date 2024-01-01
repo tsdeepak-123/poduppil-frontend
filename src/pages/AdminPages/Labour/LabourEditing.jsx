@@ -8,8 +8,6 @@ function LabourEditing() {
     <div>
       <Header headers="EDIT LABOUR" />
       <AddLabour />
-      <div className="mb-6"></div>
-      <Footer />
     </div>
   );
 }

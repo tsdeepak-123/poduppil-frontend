@@ -71,6 +71,7 @@ function Contract() {
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
+                <th scope="col" class="px-6 py-3">Sl.No</th>
                 <th scope="col" class="px-6 py-3">Project Name</th>
                 <th scope="col" class="px-6 py-3">Contractor</th>
                 <th scope="col" class="px-6 py-3">Phone</th>
@@ -82,8 +83,9 @@ function Contract() {
             </thead>
             <tbody>
               { filteredContracts.length > 0 ? (
-                filteredContracts.map((data) => (
+                filteredContracts.map((data,index) => (
                   <tr key={data._id} className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                    <td className="py-4 px-6">{index+1}</td>
                     <td className="py-4 px-6">{data?.project?.name}</td>
                     <td className="py-4 px-6">{data?.Contractorname}</td>
                     <td className="py-4 px-6">{data?.phone}</td>

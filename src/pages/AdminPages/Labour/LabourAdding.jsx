@@ -9,10 +9,6 @@ function LabourAdding() {
     
       <Header headers="ADD NEW LABOUR"/>
       <AddLabour/>
-      <div className='mb-6'>
-  
-      </div>
-      <Footer/>
     </div>
   )
 }

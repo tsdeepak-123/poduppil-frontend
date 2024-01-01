@@ -7,6 +7,7 @@ import ReturnButton from '../../CommonComponents/Return/ReturnButton';
 import TextField from "@mui/material/TextField";
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import Footer from "../../AdminComponents/Footer/Footer"
 
 function AddLabour() {
   const navigate = useNavigate();
@@ -61,24 +62,26 @@ function AddLabour() {
 
     if(labourData){
        //update operation with the edited values
-       console.log("hiiiiiiiiiiii");
        axiosAdmin.patch(`editlabour/${labourData._id}`, {
         name,
         age,
         phone,
-        street,
-        post,
-        town,
-        district,
-        state,
-        pincode,
+        address:{street:street,
+        post:post,
+        town:town,
+        district:district,
+        state:state,
+        pincode:pincode
+        },
         salary,
         adhar,
         date
        })
        .then((response) => {
-         navigate("/admin/labourdetails");
-         Swal.fire('labour updated successfully')
+        if(response?.data?.success){
+          navigate("/admin/labourdetails");
+          Swal.fire('labour updated successfully')
+        }
        })
        .catch((error) => {
          if (error.response && error.response.status === 401) {
@@ -155,7 +158,7 @@ function AddLabour() {
     date);
 
   return (
-    <>
+    <div className='flex flex-col justify-between h-screen'>
       <Toaster position='top-center' reverseOrder={false} />
       <ReturnButton />
       <div className='flex flex-wrap justify-around px-16 mt-24'>
@@ -183,7 +186,11 @@ function AddLabour() {
         />
         <Buttons click={handleSubmit} name={loading ? "LOADING..." : labourData ? "UPDATE LABOUR" : "ADD LABOUR"} classes={'sm:w-96'} />
       </div>
-    </>
+      <div className='mt-4'>
+      <Footer/>
+      </div>
+    
+    </div>
   );
 }
 
