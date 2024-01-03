@@ -30,7 +30,8 @@ function Labour() {
     setSearchTerm(e.target.value);
   };
   const filteredLabourData = labourData?.filter((obj) =>
-    obj.name.toLowerCase().includes(searchTerm.toLowerCase())
+    obj.name.toLowerCase().includes(searchTerm.toLowerCase())||
+    (obj.adhar && obj.adhar.toString().includes(searchTerm))
   );
 
   //data displayin when mounting
