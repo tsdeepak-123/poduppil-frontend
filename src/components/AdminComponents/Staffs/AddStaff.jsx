@@ -84,21 +84,43 @@ function AddStaff() {
 
 
       if(staffData){
-        //update operation with the edited values
-        axiosAdmin.patch(`editstaff/${staffData._id}`, {
-         name,
-         age,
-         phone,
-         address:{street:street,
+       const address={street:street,
           post:post,
           town:town,
           district:district,
           state:state,
           pincode:pincode
+          }
+
+          const newaddress=JSON.stringify(address)
+          const Staffdata={
+          name,
+          age,
+          phone,
+          address:newaddress,
+          salary,
+          adhar,
+          date,
+        }
+      
+        const formData = new FormData();
+
+        Object.entries(Staffdata).forEach(([key, value]) => {
+          console.log(key,":",value);
+          formData.append(key, value);
+        });
+        
+        for (const proof of idproof) {
+          formData.append("proof", proof);
+        }
+        console.log(photo,"photooo");
+        formData.append("photo",photo);
+        //update operation with the edited values
+        axiosAdmin.patch(`editstaff/${staffData._id}`,formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-         salary,
-         adhar,
-         date
+         
         })
         .then((response) => {
           navigate("/admin/staffdetails");
@@ -135,6 +157,8 @@ function AddStaff() {
         formData.append("proof", proof);
       }
       formData.append("photo",photo);
+
+      
       axiosAdmin.post('addstaff',formData, {
         headers: {
           "Content-Type": "multipart/form-data",

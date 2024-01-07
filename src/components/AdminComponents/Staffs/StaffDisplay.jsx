@@ -5,6 +5,8 @@ import AddNav from "../../CommonComponents/AddNav/AddNav";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Loading from "../../CommonComponents/Loading/Loading";
+import Swal from "sweetalert2";
+import SwalMessage from "../../../utils/SwalMessage"
 
 function StaffDisplay() {
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ function StaffDisplay() {
   //data displaying when mounting
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [staffData]);
   const nav = (id) => {
     navigate("/admin/staffprofile", { state: { id } });
   };
@@ -55,6 +57,24 @@ function StaffDisplay() {
     navigate(`/admin/editstaff`, { state: { staffData } });
   };
 
+
+  const handleDeleteStaff = async (id,e) => {
+    try {
+      const admin=true
+      const status= SwalMessage(`deletestaff?id=${id}`, "Staff", "Delete",admin)
+        if(status.success){
+          Swal.fire(
+            `Staff deleted successfully` ,
+            '',
+            'success'
+          )
+        }
+    } catch (error) {
+      if (error.response && error.response.status === 401){
+        window.location.replace("/admin/login");
+      }
+    }
+  };
   return (
     <>
       <AddNav
@@ -98,7 +118,7 @@ function StaffDisplay() {
                   Profile
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Action
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -163,6 +183,12 @@ function StaffDisplay() {
                           handleEdit(obj);
                         }}
                         className="text-yellow-600"
+                      />
+                      <DeleteIcon
+                        onClick={() => {
+                          handleDeleteStaff(obj?._id);
+                        }}
+                        className="text-red-600 ms-6"
                       />
                     </td>
                   </tr>

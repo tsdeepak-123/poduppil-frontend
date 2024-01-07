@@ -70,8 +70,13 @@ function AddProject() {
           projectnumber,
         })
         .then((response) => {
-          navigate("/admin/projectdetails");
-          Swal.fire('Project updated successfully')
+          if(response.data.success){
+            navigate("/admin/projectdetails");
+            Swal.fire('Project updated successfully')
+          }else{
+            toast.error(response.data.message)
+          }
+         
         })
         .catch((error) => {
           if (error.response && error.response.status === 401) {
@@ -116,7 +121,7 @@ function AddProject() {
          <div className="flex flex-wrap justify-around px-16 mt-24">
           <TextFields
             name="Number"
-            type="text"
+            type="number"
             value={projectnumber}
             onChange={handleProjectNumberChange}
           />

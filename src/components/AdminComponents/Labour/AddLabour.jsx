@@ -61,22 +61,43 @@ function AddLabour() {
     setLoading(true)
 
     if(labourData){
-       //update operation with the edited values
-       axiosAdmin.patch(`editlabour/${labourData._id}`, {
-        name,
-        age,
-        phone,
-        address:{street:street,
-        post:post,
-        town:town,
-        district:district,
-        state:state,
-        pincode:pincode
+      const address={street:street,
+         post:post,
+         town:town,
+         district:district,
+         state:state,
+         pincode:pincode
+         }
+
+         const newaddress=JSON.stringify(address)
+         const Staffdata={
+         name,
+         age,
+         phone,
+         address:newaddress,
+         salary,
+         adhar,
+         date,
+       }
+     
+       const formData = new FormData();
+
+       Object.entries(Staffdata).forEach(([key, value]) => {
+         console.log(key,":",value);
+         formData.append(key, value);
+       });
+       
+       for (const proof of idproof) {
+         formData.append("proof", proof);
+       }
+       formData.append("photo",photo);
+      //update operation with the edited values
+      axiosAdmin.patch(`editlabour/${labourData._id}`,formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        salary,
-        adhar,
-        date
-       })
+       
+      })
        .then((response) => {
         if(response?.data?.success){
           navigate("/admin/labourdetails");
@@ -144,19 +165,6 @@ function AddLabour() {
   
 
 
-  console.log(    name,
-    age,
-    phone,
-    street,
-    post,
-    town,
-    district,
-    state,
-    adhar,
-    pincode,
-    salary,
-    date);
-
   return (
     <div className='flex flex-col justify-between h-screen'>
       <Toaster position='top-center' reverseOrder={false} />
@@ -165,7 +173,7 @@ function AddLabour() {
         {/* Add input fields for other labour properties */}
         <TextFields name="Labour name" type="text" value={name} onChange={handleNameChange} />
         <TextFields name="Age" type="number" value={age} onChange={handleAgeChange} />
-        <TextFields name="Phone number" type="text" value={phone} onChange={handlePhoneChange} />
+        <TextFields name="Phone number" type="number" value={phone} onChange={handlePhoneChange} />
         <TextFields name="Street name" type="text" value={street} onChange={(e) => setStreet(e.target.value)} />
         <TextFields name="Post office" type="text" value={post} onChange={(e) => setPost(e.target.value)} />
         <TextFields name="Town" type="text" value={town} onChange={(e) => setTown(e.target.value)} />

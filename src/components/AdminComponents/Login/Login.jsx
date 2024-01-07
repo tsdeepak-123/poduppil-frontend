@@ -62,15 +62,15 @@ function Login() {
           setCookies('AdminsecretKey',response?.data?.adminSignin?.token, { path: '/', expires: expirationDate });
           dispatch(AdminAction.AddAdmin({ token: response?.data?.adminSignin?.token}));
 
-          toast.success(response?.data?.messege)
+          toast.success(response?.data?.message)
           
           navigate('/admin/dashboard');
         }else{
-          toast.error(response?.data?.messege)
+          toast.error(response?.data?.message)
         }
       })
       .catch((error) => {
-        toast.error(error?.response?.data?.messege);
+        toast.error(error?.response?.data?.message);
       });
   };
 

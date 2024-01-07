@@ -92,7 +92,7 @@ function AttendanceSheet() {
   return (
     <>
       <ReturnButton />
-      <AttendanceBar click={handleAddLabour} name="+ ADD NEW LABOUR"  value={searchTerm} onChange={handleSearch} /> 
+      <AttendanceBar click={handleAddLabour} name="+ ADD NEW LABOUR"  value={searchTerm} onChange={handleSearch}z /> 
       {searchResults.length === 0 ? (
         <Nodata />
       ) : attendanceData ? (

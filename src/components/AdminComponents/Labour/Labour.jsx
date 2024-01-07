@@ -4,6 +4,9 @@ import { axiosAdmin } from "../../../Api/Api";
 import AddNav from "../../CommonComponents/AddNav/AddNav";
 import EditIcon from "@mui/icons-material/Edit";
 import Loading from "../../CommonComponents/Loading/Loading";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
+import SwalMessage from "../../../utils/SwalMessage"
 
 function Labour() {
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ function Labour() {
   //data displayin when mounting
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [labourData]);
 
   const nav = (id) => {
     navigate("/admin/viewprofile", { state: { id } });
@@ -53,6 +56,25 @@ function Labour() {
 
   const handleEdit = (labourData) => {
     navigate(`/admin/editlabour`, { state: { labourData } });
+  };
+
+
+  const handleDeleteLabour = async (id,e) => {
+    try {
+      const admin=true
+      const status= SwalMessage(`deletelabour?id=${id}`, "Labour", "Delete",admin)
+        if(status.success){
+          Swal.fire(
+            `Labour deleted successfully` ,
+            '',
+            'success'
+          )
+        }
+    } catch (error) {
+      if (error.response && error.response.status === 401){
+        window.location.replace("/admin/login");
+      }
+    }
   };
 
   return (
@@ -166,12 +188,23 @@ function Labour() {
                       View
                     </td>
                     <td class="px-6 py-4 font-medium cursor-pointer">
+      
                       <EditIcon
                         onClick={() => {
                           handleEdit(obj);
                         }}
                         className="text-yellow-600"
                       />
+                      
+                      <DeleteIcon
+                        onClick={() => {
+                          handleDeleteLabour(obj?._id);
+                        }}
+                        className="text-red-600 ms-6"
+                      />  
+                     
+                     
+                      
                     </td>
                   </tr>
                 ))

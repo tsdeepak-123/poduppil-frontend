@@ -5,6 +5,9 @@ import { axiosAdmin } from "../../../Api/Api";
 import EditIcon from "@mui/icons-material/Edit";
 import Buttons from "../../CommonComponents/Button/Buttons";
 import Loading from "../../CommonComponents/Loading/Loading";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
+import SwalMessage from "../../../utils/SwalMessage"
 
 function Project() {
   const navigate = useNavigate();
@@ -39,7 +42,7 @@ function Project() {
   //data displaying when mounting
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [ProjectData]);
 
   const nav = (id, projectname) => {
     console.log("porr", projectname);
@@ -52,6 +55,25 @@ function Project() {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+
+  const handleDeleteProject = async (id) => {
+    try {
+      const admin=true
+      const status= SwalMessage(`deleteproject?id=${id}`, "Project", "Delete",admin)
+        if(status.success){
+          Swal.fire(
+            `Project deleted successfully` ,
+            '',
+            'success'
+          )
+        }
+    } catch (error) {
+      if (error.response && error.response.status === 401){
+        window.location.replace("/admin/login");
+      }
+    }
   };
   return (
     <>
@@ -91,7 +113,7 @@ function Project() {
                   Details
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Edit
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -118,6 +140,12 @@ function Project() {
                             handleEdit(data);
                           }}
                           className="text-yellow-600"
+                        />
+                        <DeleteIcon
+                          onClick={() => {
+                            handleDeleteProject(data?._id);
+                          }}
+                          className="text-red-600 ms-6"
                         />
                       </td>
                     </tr>

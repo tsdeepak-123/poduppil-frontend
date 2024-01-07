@@ -13,6 +13,7 @@ import LabourEditing from '../pages/AdminPages/Labour/LabourEditing'
 import ContractAdding from '../pages/AdminPages/Contract/ContractAdding'
 import ContractEdit from '../pages/AdminPages/Contract/ContractEdit'
 import Addbills from '../pages/AdminPages/Office/Addbills'
+import EditBills from '../pages/AdminPages/Office/EditBills'
 import ProjectAdding from '../pages/AdminPages/Project/ProjectAdding'
 import StaffAdding from '../pages/AdminPages/Staff/StaffAdding'
 import ProjectLists from '../pages/AdminPages/Project/ProjectLists'
@@ -78,6 +79,7 @@ function AdminRoutes() {
        <Route path='/editlabour' element={adminToken?<LabourEditing/>:<LoginPage/> }/>{/*edited*/}
        <Route path='/addcontract' element={adminToken?<ContractAdding/>:<LoginPage/>}/>
        <Route path='/addbills' element={adminToken?<Addbills/>:<LoginPage/>}/>
+       <Route path='/editbills' element={adminToken?<EditBills/>:<LoginPage/>}/>
        <Route path='/addproject' element={adminToken?<ProjectAdding/>:<LoginPage/>}/>
        <Route path='/editproject' element={adminToken?<ProjectEditing/>:<LoginPage/> }/>{/*edited*/}
        <Route path='/addstaff' element={adminToken?<StaffAdding/>:<LoginPage/>}/>

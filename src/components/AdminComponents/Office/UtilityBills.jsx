@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { axiosAdmin } from "../../../Api/Api";
 import FormatDate from "../../../utils/FormatDate";
 import AddNav from "../../CommonComponents/AddNav/AddNav";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import Buttons from "../../CommonComponents/Button/Buttons";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
+import SwalMessage from "../../../utils/SwalMessage";
 
 function UtilityBills() {
   const [billData, setBillData] = useState();
@@ -18,9 +21,9 @@ function UtilityBills() {
   const handlePaidBills = () => {
     navigate("/admin/paidbills");
   };
-  const handleSearch=(e)=>{
-    setSearchTerm(e.target.value)
-  }
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   const fetchData = async () => {
     try {
@@ -28,16 +31,14 @@ function UtilityBills() {
       setBillData(response.data.allBillData);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login")
+        window.location.replace("/admin/login");
       }
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
-
-  
+  }, [billData]);
 
   const viewBills = (id) => {
     navigate("/admin/billsingleview", { state: { id } });
@@ -49,13 +50,41 @@ function UtilityBills() {
       )
     : [];
 
+  const handleDeleteBill = async (id, e) => {
+    try {
+      const admin = true;
+      const status = SwalMessage(
+        `deletebill?id=${id}`,
+        "Bill",
+        "Delete",
+        admin
+      );
+      if (status.success) {
+        Swal.fire(`Bill deleted successfully`, "", "success");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.location.replace("/admin/login");
+      }
+    }
+  };
+
+  const handleEdit = (BillData) => {
+    navigate(`/admin/editbills`, { state: { BillData } });
+  };
+
   return (
     <>
-      <div className='w-full flex'>
-        <div className='w-[80%]'>
-          <AddNav name="+ ADD NEW BILL" click={handleAddBillClick} value={searchTerm} onChange={handleSearch} />
+      <div className="w-full flex">
+        <div className="w-[80%]">
+          <AddNav
+            name="+ ADD NEW BILL"
+            click={handleAddBillClick}
+            value={searchTerm}
+            onChange={handleSearch}
+          />
         </div>
-        <div className='w-[20%] mt-[208px]'>
+        <div className="w-[20%] mt-[208px]">
           <Buttons name="PAID BILLS" click={handlePaidBills} />
         </div>
       </div>
@@ -92,15 +121,35 @@ function UtilityBills() {
           <tbody>
             {filteredBills && filteredBills.length > 0 ? (
               filteredBills.map((item) => (
-                <tr key={item._id} className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <tr
+                  key={item._id}
+                  className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                >
                   <td className="px-6 py-4">{item.name}</td>
                   <td className="px-6 py-4">{FormatDate(item.date)}</td>
                   <td className="px-6 py-4">{item.amount}</td>
                   <td className="px-6 py-4">{item.status}</td>
                   <td className="px-6 py-4">{item.paid}</td>
                   <td className="px-6 py-4">{item.pending}</td>
-                  <td className="px-6 py-4 text-blue-600 cursor-pointer" onClick={() => viewBills(item._id)}>View</td>
-                  <td className="px-6 py-4 cursor-pointer"><EditIcon className="text-yellow-600"/></td>
+                  <td
+                    className="px-6 py-4 text-blue-600 cursor-pointer"
+                    onClick={() => viewBills(item._id)}
+                  >
+                    View
+                  </td>
+                  <td className="px-6 py-4 cursor-pointer">
+                    <EditIcon 
+                     onClick={() => {
+                      handleEdit(item);
+                    }}
+                    className="text-yellow-600" />
+                    <DeleteIcon
+                      onClick={() => {
+                        handleDeleteBill(item?._id);
+                      }}
+                      className="text-red-600 ms-6"
+                    />
+                  </td>
                 </tr>
               ))
             ) : (

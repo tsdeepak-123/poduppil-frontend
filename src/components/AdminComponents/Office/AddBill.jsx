@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import TextFields from "../../CommonComponents/TextFields/TextFields";
 import Buttons from "../../CommonComponents/Button/Buttons";
 import { axiosAdmin } from "../../../Api/Api";
@@ -8,16 +8,23 @@ import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 
 function AddBill() {
-  const [name, setName] = useState("");
-  const [date, setDate] = useState();
-  const [amount, setAmount] = useState();
-  const [status, setStatus] = useState("");
-  const [paid, setPaid] = useState();
-  const [pending, setPending] = useState();
-  const [paidby, setPaidBy] = useState("");
-  const [payment, setPayment] = useState("");
-  const [photo, setphoto] = useState(null);
-  const [loading, setLoading] = useState(false);
+
+// Initialize state with default values from projectData 
+const location = useLocation();
+const { BillData } = location.state || {};
+ 
+console.log("bill dataaa",BillData);
+
+const [name, setName] = useState(BillData?.name || "");
+const [date, setDate] = useState(BillData?.date || "");
+const [amount, setAmount] = useState(BillData?.amount || "");
+const [status, setStatus] = useState(BillData?.status || "");
+const [paid, setPaid] = useState(BillData?.paid || "");
+const [pending, setPending] = useState(BillData?.pending || "");
+const [paidby, setPaidBy] = useState(BillData?.paidby || "");
+const [payment, setPayment] = useState(BillData?.payment || "");
+const [photo, setPhoto] = useState(BillData?.photo || null);
+const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleBillNameChange = (e) => {
@@ -46,7 +53,7 @@ function AddBill() {
   };
   const handlephotoChange = (e) => {
     const file = e.target.files[0];
-    setphoto(file);
+    setPhoto(file);
   };
   const formSubmit = (e) => {
     e.preventDefault();
@@ -60,31 +67,59 @@ function AddBill() {
     formData.append("pending", pending);
     formData.append("paidby", paidby);
     formData.append("payment", payment);
-    formData.append("photo", photo); // Append the photo to the FormData
-
-    axiosAdmin
-      .post("addbills", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        setLoading(false);
-        if (response.data.success) {
-          navigate("/admin/utilitybills");
-          Swal.fire("Bill added successfully");
-        }
-        toast.error(response.data.message);
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error(error.response.data.message);
-        if (error.response && error.response.status === 401) {
-          window.location.replace("/admin/login")
-        }
-        
-      });
+    formData.append("photo", photo);
+  
+    if (BillData) {
+      // If BillData exists, it's an edit operation
+      axiosAdmin
+        .patch(`editbill/${BillData._id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          setLoading(false);
+          if (response.data.success) {
+            navigate("/admin/utilitybills");
+            Swal.fire("Bill edited successfully");
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error(error.response ? error.response.data.message : "An error occurred");
+          if (error.response && error.response.status === 401) {
+            window.location.replace("/admin/login");
+          }
+        });
+    } else {
+      // If BillData doesn't exist, it's an add operation
+      axiosAdmin
+        .post("addbills", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          setLoading(false);
+          if (response.data.success) {
+            navigate("/admin/utilitybills");
+            Swal.fire("Bill added successfully");
+          } else {
+            toast.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error(error.response ? error.response.data.message : "An error occurred");
+          if (error.response && error.response.status === 401) {
+            window.location.replace("/admin/login");
+          }
+        });
+    }
   };
+  
 
   return (
     <>
@@ -149,7 +184,7 @@ function AddBill() {
         />
         
             <div className="mx-auto mt-11">
-              <Buttons click={formSubmit} name={loading ?"LOADING...":"ADD BILL"} classes={"sm:w-96"} />
+              <Buttons click={formSubmit} name={loading ?"LOADING...":BillData ? "UPDATE" : "ADD BILL"} classes={"sm:w-96"} />
             </div>
       </div>
     </>

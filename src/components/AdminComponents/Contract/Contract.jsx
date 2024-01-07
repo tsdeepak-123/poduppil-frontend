@@ -5,6 +5,9 @@ import AddNav from "../../CommonComponents/AddNav/AddNav";
 import EditIcon from "@mui/icons-material/Edit";
 import Buttons from "../../CommonComponents/Button/Buttons";
 import Loading from "../../CommonComponents/Loading/Loading";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
+import SwalMessage from "../../../utils/SwalMessage"
 
 
 
@@ -37,9 +40,28 @@ function Contract() {
     }
   };
 
+
+  const handleDeleteContract = async (id,e) => {
+    try {
+      const admin=true
+      const status= SwalMessage(`deletecontract?id=${id}`, "Contract", "Delete",admin)
+        if(status.success){
+          Swal.fire(
+            `contract deleted successfully` ,
+            '',
+            'success'
+          )
+        }
+    } catch (error) {
+      if (error.response && error.response.status === 401){
+        window.location.replace("/admin/login");
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [contractData]);
 
   const nav = (id) => {
     navigate("/admin/contractview", { state: { id } });
@@ -78,7 +100,8 @@ function Contract() {
                 <th scope="col" class="px-6 py-3">Contract Work</th>
                 <th scope="col" class="px-6 py-3">Total Amount</th>
                 <th scope="col" class="px-6 py-3">Details</th>
-                <th scope="col">Edit</th>
+                <th scope="col" class="px-6 py-3">Edit</th>
+                <th scope="col" class="px-6 py-3">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -94,6 +117,13 @@ function Contract() {
                     <td className="text-blue-500 cursor-pointer py-4 px-6" onClick={() => nav(data._id)}>View</td>
                     <td className="font-medium cursor-pointer">
                       <EditIcon onClick={() => editpage(data)} className="text-yellow-600" />
+                    </td>
+                    <td
+                      scope="row"
+                      class="px-6 py-4 font-medium text-red-500 cursor-pointer"
+                      onClick={() => handleDeleteContract(data._id)}
+                    >
+                      <DeleteIcon />
                     </td>
                   </tr>
                 ))
