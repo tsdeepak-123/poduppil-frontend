@@ -2,18 +2,27 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import Buttons from '../../CommonComponents/Button/Buttons'
 import Search from "../../CommonComponents/Search/Search"
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-function AttendanceBar({click,name,value,onChange}) {
+function AttendanceBar({click,name,value,onChange, datePicker, selectedDate, onDateChange}) {
     const navigate=useNavigate()
   return (
-
     <div className='flex justify-around me-7 mb-10'>
-
     <nav className="w-full sm:flex justify-around gap-2 sm:ml-32">
-
        <div className='mt-5'> 
       <Search value={value} onChange={onChange}/>
       </div>
+      <div className="mt-5">
+      {datePicker && (
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => onDateChange(date)}
+            dateFormat="dd-MM-yyyy"
+            className="border p-2 rounded-md"
+          />
+        )}
+</div>
 
               <div onClick={()=> navigate('/admin/labourattendance')} className="cursor-pointer flex text-[#5f655f] bg-transparent outline ml-2 rounded-md font-medium my-6 px-4 py-1 w-[auto] self-center hover:bg-[#e4ece5] hover:text-black transition duration-500">
               <svg

@@ -16,7 +16,7 @@ function Home() {
   <div className="flex flex-col justify-center items-center">
     <div className="">
     <img
-      src="/Images/poduppilLogo.jpg"
+      src="/Images/PoduppilLogo.jpg"
       alt=""
       className="w-[300px]"
     />

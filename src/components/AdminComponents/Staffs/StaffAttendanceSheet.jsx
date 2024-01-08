@@ -7,6 +7,8 @@ import AttendanceDisplay from "../Labour/AttendanceDisplay";
 import AttendanceBar from "../Attendance/AttendanceBar";
 import Nodata from "../../CommonComponents/Nodata/Nodata";
 import Loading from "../../CommonComponents/Loading/Loading";
+import moment from "moment"
+import toast,{Toaster} from "react-hot-toast"
 
 function StaffAttendanceSheet() {
   const [selectedValues, setSelectedValues] = useState({});
@@ -14,6 +16,7 @@ function StaffAttendanceSheet() {
   const [attendanceData, SetAttendanceData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -65,11 +68,20 @@ function StaffAttendanceSheet() {
     setSelectedValues(initialValues);
   }, [staffData]);
 
-  const updateAttendance = () => {
+  
+  const updateAttendance = async () => {
     try {
-      axiosAdmin.post("staffattendance", { selectedValues }).then((res) => {
-        window.location.reload();
-      });
+      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+      const response = await axiosAdmin.post("staffattendance", { selectedValues, date: formattedDate });
+  
+      if (response.data.success) {
+        toast.success("Attendance updated successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error(response.data.message,{autoClose:3000});
+      }
     } catch (error) {
       handleAPIError(error);
     }
@@ -88,14 +100,19 @@ function StaffAttendanceSheet() {
 
   return (
     <>
+    <Toaster position="top-center" reverseOrder={false}  />
       <ReturnButton />
-      <AttendanceBar click={handleAddStaff} name="+ ADD NEW STAFF"  value={searchTerm} onChange={handleSearch} />
+      <AttendanceBar click={handleAddStaff} name="+ ADD NEW STAFF"  value={searchTerm} onChange={handleSearch} datePicker={true} // Set this prop to enable date picker
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate} />
 
       {searchResults?.length === 0 ? (
         <Nodata />
-      ) : attendanceData ? (
-        <AttendanceDisplay attendanceData={attendanceData} />
-      ) : (
+      ) :
+      //  attendanceData ? (
+      //   <AttendanceDisplay attendanceData={attendanceData} />
+      // ): 
+       (
         !searchResults ? (
 <Loading/>
         ):(
