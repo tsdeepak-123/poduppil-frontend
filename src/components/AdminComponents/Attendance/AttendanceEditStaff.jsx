@@ -1,76 +1,96 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { axiosAdmin } from '../../../Api/Api'
+import { axiosAdmin } from '../../../Api/Api';
 import Buttons from '../../CommonComponents/Button/Buttons';
-import toast ,{Toaster} from "react-hot-toast"
+import toast, { Toaster } from 'react-hot-toast';
+import TextFields from '../../CommonComponents/TextFields/TextFields';
 
 const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: '40px',
-    width: 500,
-    bgcolor: '#FFFFFF', // Use a light color for background
-    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.15)', // Adjust box shadow
-    p: 4,
-  };
-function AttendanceEditStaff({staffData}) {
-    const [open, setOpen] = useState(false);
-    const [selectedValues, setSelectedValues] = useState({});
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  borderRadius: '40px',
+  width: 500,
+  bgcolor: '#FFFFFF',
+  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.15)',
+  p: 4,
+};
 
-      const handleOpen = () => setOpen(true);
-      const handleClose = () => setOpen(false);
- 
-    console.log(staffData);
-    const handleRadioButtonChange = (event, id) => {
-      const { value } = event.target;
-  
-      setSelectedValues(value)
-    }
-    const handleSubmit=async(e)=>{
-      try {
-        e.preventDefault()
-        const response=await axiosAdmin.post('staffAttendanceEdit',{status:selectedValues,staffId:staffData?._id})
-        if(response?.data?.success){
-          handleClose()
-          toast.success("Staff attandence Edited successfully")
-        }
-      } catch (error) {
-        toast.error(error?.response?.data?.messege)
-        if (error.response && error.response.status === 401) {
-          window.location.replace("/admin/login")
+function AttendanceEditStaff({ staffData }) {
+  const [open, setOpen] = useState(false);
+  const [selectedValues, setSelectedValues] = useState({});
+  const [date, setDate] = useState('');
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleRadioButtonChange = (event, id) => {
+    const { value } = event.target;
+
+    setSelectedValues(value);
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await axiosAdmin.post('staffAttendanceEdit', {
+        status: selectedValues,
+        staffId: staffData?._id,
+        date: date,
+      });
+      if (response?.data?.success) {
+        handleClose();
+        toast.success('Staff attendance edited successfully');
       }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      if (error.response && error.response.status === 401) {
+        window.location.replace('/admin/login');
       }
-     
     }
+  };
+
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+  };
+
   return (
     <>
-    <Toaster position="top-center" reverseOrder={false}/>
-    <Button onClick={handleOpen} variant="outlined" color="primary">
-     EDIT ATTENDANCE
-    </Button>
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={modalStyle}>
-        <div className='mb-4'>
-        <Typography variant="h5" className='flex justify-center'>
-          EDIT ATTENDANCE
-        </Typography>
-        </div>
-        <div className='mb-4'>
-        <div
-                  key={staffData?._id}
-                  className="p-4 flex gap-4 w-auto rounded-2xl shadow-xl"
-                >
-                  <div className="w-[40%]">
+      <Toaster position="top-center" reverseOrder={false} />
+      <Button onClick={handleOpen} variant="outlined" color="primary">
+        EDIT ATTENDANCE
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <div className="mb-4">
+            <Typography variant="h5" className="flex justify-center">
+              EDIT ATTENDANCE
+            </Typography>
+          </div>
+          <div className="mb-4">
+          <div className='pt-4'>
+                <TextFields
+                  name="Choose Date"
+                  type="date"
+                  value={date}
+                  onChange={handleDateChange}
+                  input={true}
+                />
+              </div>
+            <div
+              key={staffData?._id}
+              className="p-4 flex gap-4 w-auto rounded-2xl shadow-xl"
+            >
+                               <div className="w-[40%]">
                     <img
                       className="w-16 rounded-full h-16"
                       src={staffData?.photo}
@@ -126,15 +146,15 @@ function AttendanceEditStaff({staffData}) {
                       </label>
                     </div>
                   </div>
-                </div>
+            </div>
           </div>
-        <div className='flex justify-center'>
-       <Buttons name="SUBMIT" click={handleSubmit}/>
-        </div>
-      </Box>
-    </Modal>
-  </>
-  )
+          <div className="flex justify-center">
+            <Buttons name="SUBMIT" click={handleSubmit} />
+          </div>
+        </Box>
+      </Modal>
+    </>
+  );
 }
 
-export default AttendanceEditStaff
+export default AttendanceEditStaff;
