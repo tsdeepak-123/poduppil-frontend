@@ -14,7 +14,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
-import Nodata from "../../CommonComponents/Nodata/Nodata"; 
+import Nodata from "../../CommonComponents/Nodata/Nodata";
+import AddCareOfModal from "./AddCareOfModal";
 
 function PurchaseMaterial() {
   const location = useLocation();
@@ -29,6 +30,7 @@ function PurchaseMaterial() {
   const [table, setTable] = useState(false);
   const [date, setDate] = useState();
   const [careof, setCareOf] = useState();
+  const [CareofData, setCareOfData] = useState("");
 
   const handleDataReceived = (projectname) => {
     setProjectName(projectname);
@@ -65,6 +67,16 @@ function PurchaseMaterial() {
      
 
       setMaterialData(response?.data?.allMaterials);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.location.replace("/admin/login")
+      }
+    }
+  };
+  const fetchCareOfData = async () => {
+    try {
+      const response = await axiosAdmin.get("getcareof"); 
+      setCareOfData(response?.data?.allCareOfs);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         window.location.replace("/admin/login")
@@ -110,7 +122,8 @@ function PurchaseMaterial() {
   useEffect(() => {
     fetchData();
     fetchMaterialData();
-  }, [MaterialName, MaterialData]);
+    fetchCareOfData()
+  }, [MaterialName, MaterialData,careof,CareofData]);
 
   const handleChange = (e) => {
     const selectedMaterialname = e.target.value;
@@ -168,9 +181,9 @@ function PurchaseMaterial() {
         </div>
         
           <div className="flex justify-center flex-wrap gap-4 mt-8">
-            <>
+            <div className="flex flex-row gap-6">
               {MaterialData?.length > 0 ? (
-                <Box className="w-[380px]">
+                <Box className="sm:w-96 w-80">
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
                       SELECT MATERIAL
@@ -179,7 +192,7 @@ function PurchaseMaterial() {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={MaterialName}
-                      label="SELECT PROJECT"
+                      label="SELECT MATERIAL"
                       onChange={handleChange}
                     >
                       {MaterialData.map((item) => (
@@ -191,7 +204,7 @@ function PurchaseMaterial() {
                   </FormControl>
                 </Box>
               ) : (
-                <Box className="sm:w-[380px] w-80">
+                <Box className="sm:w-96 w-80">
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
                       No materials found
@@ -206,26 +219,65 @@ function PurchaseMaterial() {
                   </FormControl>
                 </Box>
               )}
-            </>
-
-            <div className="mt-3">
+               <div className="mt-3">
               <AddMaterialModal />
             </div>
+            </div>
 
-            <TextFields
-              name="Care OF"
-              value={careof}
-              type="text"
-              onChange={handleCareOfchange}
-            />
-
+            <div className="flex flex-row gap-6">
+              {CareofData?.length > 0 ? (
+                <Box className="sm:w-96 w-80">
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      SELECT CARE OF
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={careof}
+                      label="SELECT CARE OF"
+                      onChange={handleCareOfchange}
+                    >
+                      {CareofData.map((item) => (
+                        <MenuItem key={item.name} value={item.name}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              ) : (
+                <Box className="sm:w-96 w-80">
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      No careOf found
+                    </InputLabel>
+                    <Select
+                      id="demo-simple-select"
+                      label="SELECT CARE OF"
+                      disabled
+                    >
+                      <MenuItem>No Careof found</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              )}
+               <div className="mt-3">
+              <AddCareOfModal />
+            </div>
+            </div>
+            </div>
+            <div className="mt-4 flex flex-wrap sm:pl-44 pl-6">
+            <div>
             <TextFields
               name="Quantity"
               value={quantity}
               type="number"
               onChange={handleQuantitychange}
             />
-            <div className="ms-16">
+            </div>
+            <div className="w-[90px]"></div>
+            <div className="">
               <TextFields
                 name="BaseRate"
                 value={Rate}
@@ -233,8 +285,7 @@ function PurchaseMaterial() {
                 onChange={handleRatechange}
               />
             </div>
-
-          </div>
+            </div>
           <div className=" flex justify-center mt-2">
             <Buttons
               name="SUBMIT"
