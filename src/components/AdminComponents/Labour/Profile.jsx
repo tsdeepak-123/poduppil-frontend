@@ -44,9 +44,6 @@ function Profile() {
         <Loading/>
         ):(
           <div class="container mx-auto my-5 p-5">
-          <div className="flex justify-end">
-            <AttendanceEdit labourData={LabourData} />
-          </div>
           <div class="md:flex no-wrap md:-mx-2">
             <div class="w-full mx-2">
               <div class="bg-white p-3 shadow-sm rounded-sm">

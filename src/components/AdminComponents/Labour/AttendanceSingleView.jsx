@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { axiosAdmin } from "../../../Api/Api";
 import ReturnButton from "../../CommonComponents/Return/ReturnButton";
 import { useLocation } from "react-router-dom";
-import moment from 'moment'
+import moment from "moment";
 import Nodata from "../../CommonComponents/Nodata/Nodata";
 import Loading from "../../CommonComponents/Loading/Loading";
+import AttendanceEdit from "../Attendance/AttendanceEdit";
+import Footer from "../../AdminComponents/Footer/Footer";
 
 function AttendanceSingleView() {
   const location = useLocation();
@@ -60,7 +62,7 @@ function AttendanceSingleView() {
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login")
+        window.location.replace("/admin/login");
       }
     }
   };
@@ -83,88 +85,88 @@ function AttendanceSingleView() {
   };
 
   return (
-    <>
+    <div className="flex flex-col justify-between min-h-screen">
       <ReturnButton />
-      {
-        !data ?(
-<Loading/>
-        ):(
+      {!data ? (
+        <Loading />
+      ) : dates.length > 0 ? (
+        <div className="flex flex-col md:flex-row">
+          <div className="md:w-1/2 p-4 md:mt-10">
+            <div className="text-center">
+              <img
+                src={photo}
+                alt="Labor Photo"
+                className="w-32 h-32 rounded-full mx-auto mb-4"
+              />
+              <h2 className="text-2xl font-semibold">{name}</h2>
+              <p>{phone}</p>
+            </div>
+            <div className="flex justify-end mt-4 md:mt-0">
+              <AttendanceEdit photo={photo} name={name} id={id} />
+            </div>
+          </div>
+          <div className="md:w-1/2 p-4">
+            {data && (
+              <div className="calendar mx-auto max-w-lg">
+                <div className="text-center font-semibold mb-4">
+                  {monthNames[currentMonth]} {currentDate.getFullYear()}
+                </div>
+                <div className="grid grid-cols-7 gap-2 text-center">
+                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                    (day) => (
+                      <div key={day} className="font-semibold text-gray-700">
+                        {day}
+                      </div>
+                    )
+                  )}
+                  {dates.map((date) => {
+                    const dateString = `${date.getFullYear()}-${(
+                      date.getMonth() +
+                      1 +
+                      ""
+                    ).padStart(2, "0")}-${(date.getDate() + "").padStart(
+                      2,
+                      "0"
+                    )}`;
+                    const status =
+                      data && data[dateString] ? data[dateString] : "gray";
+                    const className = getColorClass(status);
 
-          dates.length>0 ?(
-            <div className="flex">
-               <div className="w-1/2 p-4 mt-24">
-                 <div className="text-center">
-                   <img
-                     src={photo}
-                     alt="Labor Photo"
-                     className="w-32 h-32 rounded-full mx-auto mb-4"
-                   />
-                   <h2 className="text-2xl font-semibold">{name}</h2>
-                   <p>{phone}</p>
-                 </div>
-               </div>
-               <div className="w-1/2 p-4">
-                 {data && (
-                   <div className="calendar mx-auto max-w-lg">
-                     <div className="text-center font-semibold mb-4 mt-6">
-                       {monthNames[currentMonth]} {currentDate.getFullYear()}
-                     </div>
-                     <div className="grid grid-cols-7 gap-2 text-center">
-                       {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                         (day) => (
-                           <div key={day} className="font-semibold text-gray-700">
-                             {day}
-                           </div>
-                         )
-                       )}
-                       {dates.map((date) => {
-                         const dateString = `${date.getFullYear()}-${(
-                           date.getMonth() +
-                           1 +
-                           ""
-                         ).padStart(2, "0")}-${(date.getDate() + "").padStart(
-                           2,
-                           "0"
-                         )}`;
-                         const status =
-                           data && data[dateString] ? data[dateString] : "gray";
-                         const className = getColorClass(status);
-       
-                         return (
-                           <div
-                             key={dateString}
-                             className="w-12 h-12 flex items-center justify-center"
-                             style={{ borderRadius: "50%", border: "1px solid #ccc" }}
-                           >
-                             <div
-                               className={`w-10 h-10 ${className} rounded-full flex items-center justify-center`}
-                             >
-                               <span
-                                 className={
-                                   status === "absent" ? "text-white" : "text-black"
-                                 }
-                               >
-                                 {date.getDate()}
-                               </span>
-                             </div>
-                           </div>
-                         );
-                       })}
-                     </div>
-                   </div>
-                 )}
-               </div>
-             </div>
-               ):(
-           <div>
-             <Nodata/>
-           </div>
-               )
-        )
-
-      }
-      
-    </>
+                    return (
+                      <div
+                        key={dateString}
+                        className="w-12 h-12 flex items-center justify-center"
+                        style={{
+                          borderRadius: "50%",
+                          border: "1px solid #ccc",
+                        }}
+                      >
+                        <div
+                          className={`w-10 h-10 ${className} rounded-full flex items-center justify-center`}
+                        >
+                          <span
+                            className={
+                              status === "absent" ? "text-white" : "text-black"
+                            }
+                          >
+                            {date.getDate()}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div>
+          <Nodata />
+        </div>
+      )}
+      <Footer />
+    </div>
   );
 }
 

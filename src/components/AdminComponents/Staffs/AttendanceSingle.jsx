@@ -4,6 +4,8 @@ import ReturnButton from '../../CommonComponents/Return/ReturnButton';
 import { useLocation } from 'react-router-dom';
 import Nodata from '../../CommonComponents/Nodata/Nodata';
 import Loading from "../../CommonComponents/Loading/Loading";
+import AttendanceEditStaff from '../Attendance/AttendanceEditStaff';
+import Footer from '../Footer/Footer';
 
 function AttendanceSingle() {
   const location = useLocation();
@@ -45,7 +47,6 @@ function AttendanceSingle() {
     }
   };
 
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -63,37 +64,43 @@ function AttendanceSingle() {
     }
   };
 
-
   return (
-    <>
-      <ReturnButton />{
-        !data ? (
-<Loading/>
-        ):(
-          dates.length>0 ?(
-            <div className="flex">
-            <div className="w-1/2 p-4 mt-20">
+    <div className='flex flex-col justify-between h-screen'>
+      <ReturnButton />
+      {!data ? (
+        <Loading />
+      ) : (
+        dates.length > 0 ? (
+          <div className="flex flex-col md:flex-row">
+            <div className="md:w-1/2 p-4 mt-20">
               <div className="text-center">
                 <img src={photo} alt="Labor Photo" className="w-32 h-32 rounded-full mx-auto mb-4" />
                 <h2 className="text-2xl font-semibold">{name}</h2>
                 <p>{phone}</p>
               </div>
+              <div className="flex justify-end mt-4 md:mt-0">
+                <AttendanceEditStaff photo={photo} name={name} id={id} />
+              </div>
             </div>
-            <div className="w-1/2 p-4">
+            <div className="md:w-1/2 p-4">
               {data && (
                 <div className="calendar mx-auto max-w-lg">
                   <div className="text-center font-semibold mb-4 mt-6">
                     {monthNames[currentMonth]} {currentDate.getFullYear()}
                   </div>
                   <div className="grid grid-cols-7 gap-2 text-center">
-                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                      <div key={day} className="font-semibold text-gray-700">{day}</div>
-                    ))}
+                    {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                      (day) => (
+                        <div key={day} className="font-semibold text-gray-700">
+                          {day}
+                        </div>
+                      )
+                    )}
                     {dates.map((date) => {
                       const dateString = `${date.getFullYear()}-${(date.getMonth() + 1 + '').padStart(2, '0')}-${(date.getDate() + '').padStart(2, '0')}`;
                       const status = data && data[dateString] ? data[dateString] : 'gray';
                       const className = getColorClass(status);
-    
+
                       return (
                         <div
                           key={dateString}
@@ -117,16 +124,16 @@ function AttendanceSingle() {
               )}
             </div>
           </div>
-          ):(
-            <div>
-            <Nodata/>
+        ) : (
+          <div>
+            <Nodata />
           </div>
-          )
         )
-    
-      }
-      
-    </>
+      )}
+
+      <Footer />
+
+    </div>
   );
 }
 

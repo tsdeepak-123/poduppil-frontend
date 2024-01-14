@@ -20,7 +20,7 @@ const modalStyle = {
   p: 4,
 };
 
-function AttendanceEditStaff({ staffData }) {
+function AttendanceEditStaff({ name,photo,id }) {
   const [open, setOpen] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
   const [date, setDate] = useState('');
@@ -39,12 +39,13 @@ function AttendanceEditStaff({ staffData }) {
       e.preventDefault();
       const response = await axiosAdmin.post('staffAttendanceEdit', {
         status: selectedValues,
-        staffId: staffData?._id,
+        staffId: id,
         date: date,
       });
       if (response?.data?.success) {
         handleClose();
         toast.success('Staff attendance edited successfully');
+        window.location.reload()
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -87,18 +88,18 @@ function AttendanceEditStaff({ staffData }) {
                 />
               </div>
             <div
-              key={staffData?._id}
+              key={id}
               className="p-4 flex gap-4 w-auto rounded-2xl shadow-xl"
             >
                                <div className="w-[40%]">
                     <img
                       className="w-16 rounded-full h-16"
-                      src={staffData?.photo}
+                      src={photo}
                       alt="labour photo"
                     />
                     <div>
                       <p className="text-lg font-medium mt-4 flex">
-                        {staffData?.name}
+                        {name}
                       </p>
                     </div>
                   </div>
@@ -107,11 +108,11 @@ function AttendanceEditStaff({ staffData }) {
                       <label>
                         <input
                           type="radio"
-                          name={`attendance_${staffData?._id}`}
+                          name={`attendance_${id}`}
                           value="present"
                           checked={selectedValues === "present"}
                           onChange={(event) =>
-                            handleRadioButtonChange(event,staffData?._id)
+                            handleRadioButtonChange(event,id)
                           }
                         />
                         <span className="text-xs font-medium">PRESENT</span>
@@ -121,11 +122,11 @@ function AttendanceEditStaff({ staffData }) {
                       <label>
                         <input
                           type="radio"
-                          name={`attendance_${staffData?._id}`}
+                          name={`attendance_${id}`}
                           value="halfday"
                           checked={selectedValues === "halfday"}
                           onChange={(event) =>
-                            handleRadioButtonChange(event,staffData?._id)
+                            handleRadioButtonChange(event,id)
                           }
                         />
                         <span className="text-xs font-medium">HALF_DAY</span>
@@ -135,11 +136,11 @@ function AttendanceEditStaff({ staffData }) {
                       <label>
                         <input
                           type="radio"
-                          name={`attendance_${staffData?._id}`}
+                          name={`attendance_${id}`}
                           value="absent"
                           checked={selectedValues === "absent"}
                           onChange={(event) =>
-                            handleRadioButtonChange(event, staffData?._id)
+                            handleRadioButtonChange(event, id)
                           }
                         />
                         <span className="text-xs font-medium">ABSENT</span>

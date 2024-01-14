@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
 import Nodata from "../../CommonComponents/Nodata/Nodata";
 import AddCareOfModal from "./AddCareOfModal";
+import moment from "moment"
 
 function PurchaseMaterial() {
   const location = useLocation();
@@ -86,6 +87,7 @@ function PurchaseMaterial() {
 
   const handleMaterialSubmit = async () => {
     try {
+      const formattedDate = moment(date).format("YYYY-MM-DD");
       Swal.fire({
         title: "Purchase Material ?",
         text: "You won't be able to revert this!",
@@ -99,7 +101,7 @@ function PurchaseMaterial() {
           const response = axiosAdmin.post("/purchasematerial", {
             materials: selectedValues,
             projectname,
-            date,
+            date:formattedDate
           });
           setProjectData(response?.data?.FindProject);
           Swal.fire({ title: "Material Purchased", icon: "success" }).then(

@@ -7,11 +7,7 @@ function Attendence() {
   return (
     <div>
         <Header headers="STAFF ATTENDENCE"/>
-        <AttendanceSingle/>
-        <div className='mt-20'> 
-        <Footer/>
-        </div>
-        
+        <AttendanceSingle/>    
     </div>
   )
 }

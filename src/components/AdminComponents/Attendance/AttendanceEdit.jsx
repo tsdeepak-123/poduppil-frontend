@@ -15,12 +15,12 @@ const modalStyle = {
   transform: 'translate(-50%, -50%)',
   borderRadius: '40px',
   width: 500,
-  bgcolor: '#FFFFFF', // Use a light color for background
-  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.15)', // Adjust box shadow
+  bgcolor: '#FFFFFF', 
+  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.15)',
   p: 4,
 };
 
-function AttendanceEdit({ labourData }) {
+function AttendanceEdit({photo,name ,id}) {
   const [open, setOpen] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
   const [date, setDate] = useState('');
@@ -39,12 +39,13 @@ function AttendanceEdit({ labourData }) {
       e.preventDefault();
       const response = await axiosAdmin.post('labourAttendanceEdit', {
         status: selectedValues,
-        labourId: labourData?._id,
+        labourId: id,
         date: date,
       });
       if (response?.data?.success) {
         handleClose();
         toast.success('Labour attendance edited successfully');
+        window.location.reload()
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -87,18 +88,18 @@ function AttendanceEdit({ labourData }) {
                 />
               </div>
             <div
-              key={labourData?._id}
+              key={id}
               className="p-4 flex gap-4 w-auto rounded-2xl shadow-xl"
             >
               <div className="w-[40%]">
                 <img
                   className="w-16 rounded-full h-16"
-                  src={labourData?.photo}
+                  src={photo}
                   alt="labour photo"
                 />
                 <div>
                   <p className="text-lg font-medium mt-4 flex">
-                    {labourData?.name}
+                    {name}
                   </p>
                 </div>
               </div>
@@ -107,11 +108,11 @@ function AttendanceEdit({ labourData }) {
                   <label>
                     <input
                       type="radio"
-                      name={`attendance_${labourData?._id}`}
+                      name={`attendance_${id}`}
                       value="present"
                       checked={selectedValues === 'present'}
                       onChange={(event) =>
-                        handleRadioButtonChange(event, labourData?._id)
+                        handleRadioButtonChange(event, id)
                       }
                     />
                     <span className="text-xs font-medium">PRESENT</span>
@@ -121,11 +122,11 @@ function AttendanceEdit({ labourData }) {
                   <label>
                     <input
                       type="radio"
-                      name={`attendance_${labourData?._id}`}
+                      name={`attendance_${id}`}
                       value="halfday"
                       checked={selectedValues === 'halfday'}
                       onChange={(event) =>
-                        handleRadioButtonChange(event, labourData?._id)
+                        handleRadioButtonChange(event, id)
                       }
                     />
                     <span className="text-xs font-medium">HALF_DAY</span>
@@ -135,11 +136,11 @@ function AttendanceEdit({ labourData }) {
                   <label>
                     <input
                       type="radio"
-                      name={`attendance_${labourData?._id}`}
+                      name={`attendance_${id}`}
                       value="absent"
                       checked={selectedValues === 'absent'}
                       onChange={(event) =>
-                        handleRadioButtonChange(event, labourData?._id)
+                        handleRadioButtonChange(event, id)
                       }
                     />
                     <span className="text-xs font-medium">ABSENT</span>
