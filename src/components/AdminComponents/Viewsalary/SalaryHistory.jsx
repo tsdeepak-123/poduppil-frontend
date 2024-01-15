@@ -34,7 +34,7 @@ function SalaryHistory() {
 
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={staffId ?"/admin/staffdetails":"/admin/labourdetails"}/>
       {
         !SalaryData ?(
 <Loading/>

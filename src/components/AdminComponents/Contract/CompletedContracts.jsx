@@ -33,7 +33,7 @@ function CompletedContracts() {
 
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/contractdetails"} />
       {
       !contractData ? (
 <Loading/>

@@ -62,7 +62,7 @@ const SingleViewContract = () => {
 
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/contractdetails"}/>
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold mb-4 flex justify-center">
           Contract Work Details

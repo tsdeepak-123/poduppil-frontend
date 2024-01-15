@@ -20,7 +20,7 @@ const[cashData,setCashData]=useState()
 
   return (
     <>
-    <ReturnButton/>
+    <ReturnButton navigation={"/admin/officedetails"}/>
     <div className='flex justify-end me-36 mt-14'>
     <RecivedCashModal/>
     </div>

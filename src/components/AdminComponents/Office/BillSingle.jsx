@@ -55,7 +55,7 @@ function BillSingle() {
   }, []);
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/utilitybills"}/>
 
       {billData &&
         billData?.map((data, index) => (

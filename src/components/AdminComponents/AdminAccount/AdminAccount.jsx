@@ -6,7 +6,7 @@ import Notifications from './Notifications'
 function AdminAccount() {
   return (
     <>
-    <ReturnButton/>
+    <ReturnButton navigation="/admin/officedetails"/>
     <div className='flex justify-end me-14 mt-6'>
         <PasswordChangeModal/>
       </div>

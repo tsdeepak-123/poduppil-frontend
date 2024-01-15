@@ -66,7 +66,7 @@ function AttendanceSingle() {
 
   return (
     <div className='flex flex-col justify-between h-screen'>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/staffdetails"}/>
       {!data ? (
         <Loading />
       ) : (

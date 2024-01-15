@@ -30,7 +30,7 @@ function CompletedProjects() {
   };
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/projectdetails"}/>
       {
         !ProjectData ?(
         <Loading/>

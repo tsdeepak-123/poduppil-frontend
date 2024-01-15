@@ -105,7 +105,7 @@ function AttendanceSheet() {
   return (
     <>
     <Toaster position="top-center" reverseOrder={false}/>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/officedetails"}/>
       <AttendanceBar click={handleAddLabour} name="+ ADD NEW LABOUR"  value={searchTerm} onChange={handleSearch} datePicker={true} // Set this prop to enable date picker
         selectedDate={selectedDate}
         onDateChange={setSelectedDate} /> 

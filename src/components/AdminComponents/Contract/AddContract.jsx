@@ -75,7 +75,7 @@ function AddContract() {
   return (
     <>
     <Toaster position="top-center" reverseOrder={false}/>
-    <ReturnButton/>
+    <ReturnButton navigation="/admin/contractdetails"/>
       <div  className='flex flex-wrap justify-around px-16 mt-24'>
       <div className="ms-4 sm:mb-0 mb-4">
       <Dropdown projects={projectData} onDataPassed={handleDataReceived}/>

@@ -80,6 +80,13 @@ function Login() {
       });
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   return (
     <div className='flex flex-col justify-between h-screen '>
       <Toaster position='top-center' reverseOrder={false}/>
@@ -89,7 +96,7 @@ function Login() {
           alt="Poduppil Logo"
           style={{ width: '320px', height: 'auto' }}
         />
-        <form>
+        <form onKeyDown={handleKeyDown}>
           <div className="mb-4 relative">
             <TextFields
               name="Email"

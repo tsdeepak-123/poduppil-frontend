@@ -84,6 +84,7 @@ function Labour() {
         click={handleAddLabourClick}
         value={searchTerm}
         onChange={handleSearch}
+        navigation={"/admin/dashboard"}
       />
       {!filteredLabourData ? (
         <Loading />

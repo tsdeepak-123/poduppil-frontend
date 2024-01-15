@@ -169,7 +169,7 @@ function PurchaseMaterial() {
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/projectlist"}/>
       <div></div>
 
       {projectname && date ? (

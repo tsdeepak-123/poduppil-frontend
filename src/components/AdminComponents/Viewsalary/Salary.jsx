@@ -87,7 +87,7 @@ function Salary() {
   }
   return (
     <>
-   <ReturnButton/>
+   <ReturnButton navigation={"/admin/labourdetails"}/>
    {
     !LabourData ? (
 <Loading/>

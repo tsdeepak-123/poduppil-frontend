@@ -5,10 +5,10 @@ import Buttons from '../Button/Buttons'
 import Search from '../Search/Search'
 
 
-function AddNav({name,click,value,onChange}) {
+function AddNav({name,click,value,onChange,navigation}) {
     const navigate=useNavigate()
     const handleBackArrowClick=()=>{
-        navigate(-1)
+        navigate(navigation)
     }
 
   return (

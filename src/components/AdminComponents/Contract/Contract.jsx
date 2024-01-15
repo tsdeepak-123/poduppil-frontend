@@ -79,7 +79,7 @@ function Contract() {
     <>
       <div className="w-full flex">
         <div className="w-[80%]">
-          <AddNav name="+ ADD NEW CONTRACT" click={handleAddContractClick} value={searchTerm} onChange={handleSearch} />
+          <AddNav name="+ ADD NEW CONTRACT" click={handleAddContractClick} value={searchTerm} onChange={handleSearch} navigation={"/admin/dashboard"} />
         </div>
         <div className="w-[20%] mt-[14%]">
           <Buttons name="COMPLETED CONTRACTS" click={handleAddCompletedContract} />

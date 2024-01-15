@@ -82,7 +82,7 @@ const SingleViewProject = () => {
 
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/projectdetails"}/>
       {
         projectData ===null?(
           <Loading/>

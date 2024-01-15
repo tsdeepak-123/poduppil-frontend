@@ -117,7 +117,7 @@ function AddProject() {
     return (
     <>
     <Toaster  position="top-center" reverseOrder={false}/>
-<ReturnButton/>
+<ReturnButton navigation={"/admin/projectdetails"}/>
          <div className="flex flex-wrap justify-around px-16 mt-24">
           <TextFields
             name="Number"

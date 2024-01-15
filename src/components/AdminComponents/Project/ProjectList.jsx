@@ -38,7 +38,7 @@ function ProjectList() {
 
   return (
     <>
-      <AddNav name="+ PURCHASE MATERIAL" click={ handlePurchaseClick} value={searchTerm} onChange={handleSearch}/>
+      <AddNav name="+ PURCHASE MATERIAL" click={ handlePurchaseClick} value={searchTerm} onChange={handleSearch} navigation={"/admin/dashboard"}/>
       {!filteredPurchaseData ? (
    <Loading/>
       ):(

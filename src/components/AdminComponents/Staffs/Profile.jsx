@@ -29,7 +29,7 @@ function Profile() {
 
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/staffdetails"}/>
       {
         !StaffData ? (
 <Loading/>

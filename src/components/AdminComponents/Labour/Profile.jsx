@@ -37,7 +37,7 @@ function Profile() {
   };
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/labourdetails"}/>
       <>
       {
         !LabourData ?(

@@ -2,11 +2,11 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
-function ReturnButton() {
+function ReturnButton({navigation}) {
     const navigate = useNavigate();
 
     const handleBackArrowClick = () => {
-        navigate("/admin/dashboard");
+        navigate(navigation);
       };
   return (
     <div className="flex justify-start mt-32">

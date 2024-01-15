@@ -86,7 +86,7 @@ function AttendanceSingleView() {
 
   return (
     <div className="flex flex-col justify-between min-h-screen">
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/labourdetails"}/>
       {!data ? (
         <Loading />
       ) : dates.length > 0 ? (

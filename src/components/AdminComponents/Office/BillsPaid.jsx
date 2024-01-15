@@ -32,7 +32,7 @@ function BillsPaid() {
     const date=dateFormat(billData ?billData[0]?.date:"")
   return (
     <>
-    <ReturnButton />
+    <ReturnButton navigation={"/admin/utilitybills"}/>
 
 {
   billData?.length>0 ?(

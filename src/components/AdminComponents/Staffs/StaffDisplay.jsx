@@ -82,6 +82,7 @@ function StaffDisplay() {
         click={handleAddStaffClick}
         value={searchTerm}
         onChange={handleSearch}
+        navigation={"/admin/dashboard"}
       />
       {!filteredstaffData ? (
         <Loading />

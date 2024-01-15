@@ -184,7 +184,7 @@ function AddStaff() {
 
   <>
   <Toaster position='top-center' reverseOrder={false}/>
-  <ReturnButton/>
+  <ReturnButton navigation={"/admin/staffdetails"}/>
    <div>
     <form action='' className='flex flex-wrap justify-around px-16 mt-24' onSubmit={handleSubmit}>
       <TextFields name="Staff name" type="text" value={name} onChange={handleNameChange}/>

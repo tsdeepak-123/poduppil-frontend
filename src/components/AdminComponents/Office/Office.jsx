@@ -29,7 +29,7 @@ function Office() {
     }
   return (
     <>
-<ReturnButton/>
+<ReturnButton navigation={"/admin/dashboard"}/>
 <div className='flex flex-col justify-between h-screen'>
 <div className='grid grid-cols-1 px- sm:grid-cols-2  md:grid-cols-3 mt-14'>
       <ItemCard classes={'mx-auto mt-8'} name="ATTENDANCE" discription="" navigation={handleAttendance}/>

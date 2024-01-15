@@ -84,6 +84,7 @@ function Project() {
       click={handleAddProjectClick}
       value={searchTerm}
       onChange={handleSearch}
+      navigation={"/admin/dashboard"}
     />
   </div>
   <div className="w-[100px] mx-56 sm:mx-0 sm:w-full lg:w-[20%] sm:mt-48">

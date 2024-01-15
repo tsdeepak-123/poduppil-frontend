@@ -23,7 +23,7 @@ function WeeklySalary() {
 
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/officedetails"} />
       {
         !salaryData ? (
 <Loading/>

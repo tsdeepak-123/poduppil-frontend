@@ -168,7 +168,7 @@ function AddLabour() {
   return (
     <div className='flex flex-col justify-between h-screen'>
       <Toaster position='top-center' reverseOrder={false} />
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/labourdetails"}/>
       <div className='flex flex-wrap justify-around px-16 mt-24'>
         {/* Add input fields for other labour properties */}
         <TextFields name="Labour name" type="text" value={name} onChange={handleNameChange} />

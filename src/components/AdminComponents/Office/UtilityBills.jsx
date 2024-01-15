@@ -82,6 +82,7 @@ function UtilityBills() {
             click={handleAddBillClick}
             value={searchTerm}
             onChange={handleSearch}
+            navigation={"/admin/officedetails"}
           />
         </div>
         <div className="w-[20%] mt-[208px]">
