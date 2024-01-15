@@ -90,7 +90,7 @@ function Login() {
           style={{ width: '320px', height: 'auto' }}
         />
         <form>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <TextFields
               name="Email"
               type="email"
@@ -104,10 +104,10 @@ function Login() {
               onChange={handlePasswordChange}
             />
             <span
-              className="cursor-pointer absolute left-[60%] top-[60%] text-blue-500"
+              className="cursor-pointer absolute left-[90%] top-[67%] transform translate-x-[-50%] text-blue-500"
               onClick={togglePasswordVisibility}
             >
-              {showPassword ? <RemoveRedEyeIcon className='text-blue-900'/>:<VisibilityOffIcon className='text-blue-900'/>  }
+              {showPassword ? <RemoveRedEyeIcon className='text-blue-900'/> : <VisibilityOffIcon className='text-blue-900'/>}
             </span>
           </div>
           <div className="flex justify-center mb-7">
