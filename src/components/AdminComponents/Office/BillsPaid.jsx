@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { axiosAdmin } from '../../../Api/Api';
 import ReturnButton from '../../CommonComponents/Return/ReturnButton';
-import dateFormat from '../../../utils/FormatDate';
 import Nodata from "../../CommonComponents/Nodata/Nodata"
+import moment from "moment"
+import Footer from '../../AdminComponents/Footer/Footer';
 
 function BillsPaid() {
 
@@ -28,16 +29,14 @@ function BillsPaid() {
     const nav = (id) => {
       navigate("/admin/billsingleview", { state: { id } });
     };
-
-    const date=dateFormat(billData ?billData[0]?.date:"")
   return (
-    <>
+    <div className='flex flex-col justify-between min-h-screen gap-8'>
     <ReturnButton navigation={"/admin/utilitybills"}/>
 
 {
   billData?.length>0 ?(
     <div className="flex justify-center mt-8">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
+    <div class="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg max-h-[500px]">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -66,7 +65,7 @@ function BillsPaid() {
                   key={data?._id}
                   className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
                 >
-                  <td className="px-6 py-4">{date}</td>
+                  <td className="px-6 py-4">{moment(data.date).format('DD-MM-YYYY')}</td>
                   <td className="px-6 py-4">{data?.name}</td>
                   <td className="px-6 py-4">{data?.amount}</td>
                   <td className="px-6 py-4">{data?.paidby}</td>
@@ -94,8 +93,8 @@ function BillsPaid() {
     <Nodata/>
   )
 }
-   
-  </>
+   <Footer/>
+  </div>
   )
 }
 

@@ -78,7 +78,7 @@ const SingleViewProject = () => {
   useEffect(() => {
     fetchData();
     fetchMaterialData();
-  }, [id]);
+  }, [id,materialData]);
 
   return (
     <>

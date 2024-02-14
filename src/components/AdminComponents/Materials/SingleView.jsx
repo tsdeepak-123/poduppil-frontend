@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import FormatDate from "../../../utils/FormatDate";
 import Search from "../../CommonComponents/Search/Search"
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from 'sweetalert2';
+import SwalMessage from "../../../utils/SwalMessage"
 
 function SingleView({ materialData }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -46,6 +49,25 @@ function SingleView({ materialData }) {
       setFilteredMaterialData(filteredData);
     }
   }, [materialData, searchTerm]);
+
+
+  const handleDeleteBill = async (id) => {
+    try {
+      const admin=true
+      const status= SwalMessage(`deletepurchasebill?id=${id}`, "Bill", "Delete",admin)
+        if(status.success){
+          Swal.fire(
+            `Bill deleted successfully` ,
+            '',
+            'success'
+          )
+        }
+    } catch (error) {
+      if (error.response && error.response.status === 401){
+        window.location.replace("/admin/login");
+      }
+    }
+  };
 
   return (
     <>
@@ -93,6 +115,14 @@ function SingleView({ materialData }) {
                 ) : (
                   ""
                 )}
+                {!searchTerm ? (
+                  <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
+                ) : (
+                  ""
+                )}
+
               </tr>
             </thead>
             <tbody>
@@ -135,6 +165,17 @@ function SingleView({ materialData }) {
                             {data.TotalAmount}
                           </td>
                         )}
+                        {!searchTerm && materialIndex === 0 && (
+                          <td
+                            className="px-6 py-4 font-medium text-red-500 whitespace-nowrap dark:text-white"
+                            rowSpan={data.Material.length}
+                          >
+                            <DeleteIcon className="text-red-500 cursor-pointer" onClick={() => {
+                          handleDeleteBill(data?._id);
+                        }}/>
+                          </td>
+                        )}
+
                       </tr>
                     ))}
                   </React.Fragment>

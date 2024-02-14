@@ -7,9 +7,7 @@ function PaidBills() {
     <div>
 <Header headers="PAID BILL DETAILS"/>
 <BillsPaid/>
-<div className='mt-80'>
-<Footer/>
-</div>
+{/* <Footer/> */}
 
     </div>
   )

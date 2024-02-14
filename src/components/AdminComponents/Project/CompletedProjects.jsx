@@ -4,6 +4,7 @@ import { axiosAdmin } from "../../../Api/Api";
 import { useNavigate } from "react-router-dom";
 import Nodata from "../../CommonComponents/Nodata//Nodata"
 import Loading from "../../CommonComponents/Loading/Loading";
+import Footer from "../../AdminComponents/Footer/Footer"
 
 function CompletedProjects() {
   const [ProjectData, setProjectData] = useState();
@@ -29,14 +30,14 @@ function CompletedProjects() {
     navigate("/admin/projectview", { state: { id } });
   };
   return (
-    <>
+    <div className="flex flex-col justify-between min-h-screen">
       <ReturnButton navigation={"/admin/projectdetails"}/>
       {
         !ProjectData ?(
         <Loading/>
         ):(
             ProjectData?.length>0 ?(
-              <div className="flex justify-center mt-8">
+              <div className="flex justify-center">
               <div class=" overflow-y-scroll relative overflow-x-auto shadow-md sm:rounded-lg max-h-[500px]">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -91,8 +92,8 @@ function CompletedProjects() {
         )
       }
  
-     
-    </>
+     <Footer/>
+    </div>
   );
 }
 

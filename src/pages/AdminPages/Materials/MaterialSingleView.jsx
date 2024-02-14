@@ -5,7 +5,7 @@ import SingleView from '../../../components/AdminComponents/Materials/SingleView
 function MaterialSingleView() {
   return (
     <div>
-        <Header headers="MATERIALS FOR THIS PROJECT"/>
+        <Header headers="MATERIALS USED FOR THIS PROJECT"/>
         <SingleView/>
         <Footer/>
     </div>

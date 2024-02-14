@@ -26,7 +26,7 @@ function WeeklySalary() {
       <ReturnButton navigation={"/admin/officedetails"} />
       {
         !salaryData ? (
-<Loading/>
+       <Loading/>
         ):(
           <>
           <div className="flex justify-center font-bold">

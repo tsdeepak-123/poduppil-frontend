@@ -79,7 +79,7 @@ if (datePortion) {
 
   return (
     <>
-      <ReturnButton/>
+      <ReturnButton navigation={"/admin/staffdetails"}/>
       {
         !StaffData ? (
 <Loading/>

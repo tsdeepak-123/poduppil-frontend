@@ -62,7 +62,7 @@ function AttendanceEdit({photo,name ,id}) {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      <Button onClick={handleOpen} variant="outlined" color="primary">
+      <Button onClick={handleOpen} variant="outlined" color="primary" className='h-9'>
         EDIT ATTENDANCE
       </Button>
       <Modal

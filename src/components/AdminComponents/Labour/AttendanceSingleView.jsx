@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { axiosAdmin } from "../../../Api/Api";
 import ReturnButton from "../../CommonComponents/Return/ReturnButton";
 import { useLocation } from "react-router-dom";
-import moment from "moment";
 import Nodata from "../../CommonComponents/Nodata/Nodata";
 import Loading from "../../CommonComponents/Loading/Loading";
 import AttendanceEdit from "../Attendance/AttendanceEdit";
 import Footer from "../../AdminComponents/Footer/Footer";
+import MonthDropdown from "./MonthDropdown";
+import YearDropdown from "./YearDropdown";
 
 function AttendanceSingleView() {
   const location = useLocation();
@@ -17,6 +18,8 @@ function AttendanceSingleView() {
   const currentDate = new Date();
   const [data, setData] = useState();
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
+  const [currentYear, setCurrentYear] = useState(currentDate.getFullYear())
+  const [loading, setLoading] = useState(false);
   const monthNames = [
     "January",
     "February",
@@ -31,6 +34,43 @@ function AttendanceSingleView() {
     "November",
     "December",
   ];
+
+  useEffect(() => {
+    fetchData();
+  }, [id, currentMonth, currentYear]); // Fetch data when id or currentMonth changes
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosAdmin.get(
+        `labourattendanceById?labourId=${id}&month=${currentMonth}&year=${currentYear}`
+      );
+      setData(response?.data?.laborData);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.location.replace("/admin/login");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getColorClass = (status) => {
+    switch (status) {
+      case "present":
+        return "bg-green-500";
+      case "halfday":
+        return "bg-yellow-500";
+      case "absent":
+        return "bg-red-500";
+      default:
+        return "bg-gray-300";
+    }
+  };
+
+  const handleMonthChange = (event) => {
+    setCurrentMonth(parseInt(event.target.value));
+  };
 
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentMonth, 1);
   const lastDayOfMonth = new Date(
@@ -48,50 +88,28 @@ function AttendanceSingleView() {
   ) {
     dates.push(new Date(date));
   }
-
-  const fetchData = async () => {
-    try {
-      const response = await axiosAdmin.get(
-        `labourattendanceById?labourId=${id}`
-      );
-      setData(response?.data?.laborData);
-      if (response?.data?.laborData) {
-        const firstDataDate = Object.keys(response.data.laborData)[0];
-        const month = new Date(firstDataDate).getMonth();
-        setCurrentMonth(month);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login");
-      }
-    }
+  const handleYearChange = (event) => {
+    setCurrentYear(parseInt(event.target.value));
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const getColorClass = (status) => {
-    switch (status) {
-      case "present":
-        return "bg-green-500";
-      case "halfday":
-        return "bg-yellow-500";
-      case "absent":
-        return "bg-red-500";
-      default:
-        return "bg-gray-300";
-    }
-  };
-
+  const years = Array.from({ length: 10 }, (_, index) => currentDate.getFullYear() - index);
   return (
     <div className="flex flex-col justify-between min-h-screen">
-      <ReturnButton navigation={"/admin/labourdetails"}/>
-      {!data ? (
+      <ReturnButton navigation={"/admin/labourdetails"} />
+      {loading ? (
         <Loading />
-      ) : dates.length > 0 ? (
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/2 p-4 md:mt-10">
+      ) : (
+        <>
+          <div className="flex mx-auto gap-10">
+            <div className="mt-5">
+            <AttendanceEdit photo={photo} name={name} id={id} />
+            </div>
+         <MonthDropdown currentMonth={currentMonth} handleMonthChange={handleMonthChange} monthNames={monthNames}/>
+         <YearDropdown currentYear={currentYear} handleYearChange={handleYearChange} YearNames={years}/>
+          </div>
+          {dates.length > 0 ? (
+            <div className="flex flex-col md:flex-row">
+               <div className="md:w-1/2 p-4 md:mt-10">
             <div className="text-center">
               <img
                 src={photo}
@@ -102,7 +120,6 @@ function AttendanceSingleView() {
               <p>{phone}</p>
             </div>
             <div className="flex justify-end mt-4 md:mt-0">
-              <AttendanceEdit photo={photo} name={name} id={id} />
             </div>
           </div>
           <div className="md:w-1/2 p-4">
@@ -159,11 +176,13 @@ function AttendanceSingleView() {
               </div>
             )}
           </div>
-        </div>
-      ) : (
-        <div>
-          <Nodata />
-        </div>
+            </div>
+          ) : (
+            <div>
+              <Nodata />
+            </div>
+          )}
+        </>
       )}
       <Footer />
     </div>

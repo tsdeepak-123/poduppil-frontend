@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 function CashTable({ RecievedData ,fetchData}) {
     useEffect(()=>{
       fetchData()
-    },[RecievedData])
+    },[])
   return (
     <>
       <div className="flex justify-center mt-8">
