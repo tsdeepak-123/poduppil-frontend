@@ -30,7 +30,7 @@ function PurchaseMaterial() {
   const [Rate, setRate] = useState();
   const [table, setTable] = useState(false);
   const [date, setDate] = useState();
-  const [careof, setCareOf] = useState();
+  const [careof, setCareOf] = useState("");
   const [CareofData, setCareOfData] = useState("");
 
   const handleDataReceived = (projectname) => {
@@ -48,7 +48,8 @@ function PurchaseMaterial() {
     setDate(e.target.value);
   };
   const handleCareOfchange = (e) => {
-    setCareOf(e.target.value);
+    const selectedCareOfname = e.target.value;
+    setCareOf(selectedCareOfname);
   };
 
   const fetchData = async () => {
@@ -133,7 +134,7 @@ function PurchaseMaterial() {
   };
 
   const handleMaterials = (material, quantity, rate, careof) => {
-    if (material && quantity && rate) {
+    if (material && quantity && rate && careof) {
       setTable(true);
 
       const newMaterial = {
@@ -148,12 +149,13 @@ function PurchaseMaterial() {
         ...prevSelectedValues,
         newMaterial,
       ]);
-
       // Clear the input fields after submission
       setMaterialName("");
+      setCareOf("");
       setQuantity("");
       setRate("");
-      setCareOf("");
+      toast.success("Material added successfully!");
+
     } else {
       toast.error("Please fill in all fields before submission.");
     }

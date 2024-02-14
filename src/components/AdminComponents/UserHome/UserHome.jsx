@@ -14,7 +14,7 @@ import Owner from "./Tables/Owner";
 function UserHome() {
   return (
     <>
-      <ReturnButton />
+      <ReturnButton navigation={"/admin/officedetails"}/>
       <div className="flex flex-col items-center mt-8">
         <div className="flex flex-wrap justify-center gap-4">
           <AddBannerModal />

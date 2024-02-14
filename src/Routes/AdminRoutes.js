@@ -45,6 +45,7 @@ import RecievedCashes from '../pages/AdminPages/Project/RecievedCashes'
 import Account from '../pages/AdminPages/Account/Account'
 import UserHomeControll from '../pages/AdminPages/UserHome/UserHomeControll'
 import EditStaff from '../pages/AdminPages/Staff/EditStaff'
+import CareOfPayments from '../pages/AdminPages/Materials/CareOfPayments'
 
 function AdminRoutes() {
   const [cookies, setCookies] = useCookies(['AdminsecretKey']);
@@ -111,6 +112,7 @@ function AdminRoutes() {
        <Route path='/recievedcash' element={adminToken?<RecievedCashes/>:<LoginPage/>}/>
        <Route path='/adminaacount' element={adminToken?<Account/>:<LoginPage/>}/>
        <Route path='/userhomecontroll' element={adminToken?<UserHomeControll/>:<LoginPage/>}/>
+       <Route path='/careofpayments' element={adminToken?<CareOfPayments/>:<LoginPage/>}/>
     </Routes>
     </div>
   )

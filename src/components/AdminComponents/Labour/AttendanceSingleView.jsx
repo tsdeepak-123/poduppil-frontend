@@ -68,6 +68,7 @@ function AttendanceSingleView() {
     }
   };
 
+ 
   const handleMonthChange = (event) => {
     setCurrentMonth(parseInt(event.target.value));
   };
