@@ -79,7 +79,7 @@ function SingleView({ materialData }) {
           <div className="flex ml-4">
             <p className="font-bold text-xl border-b-2 border-gray-300 pb-2 inline-block">
               Total&nbsp;:{" "}
-              <span className="text-red-500 ms-4">{filteredTotalRate}</span>
+              <span className="text-red-500 ms-4">{Math.floor(filteredTotalRate)}</span>
             </p>
           </div>
         )}
@@ -155,14 +155,14 @@ function SingleView({ materialData }) {
                           {material.baseRate}
                         </td>
                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {material.total}
+                          {Math.floor(material.total)}
                         </td>
                         {!searchTerm && materialIndex === 0 && (
                           <td
                             className="px-6 py-4 font-medium text-red-500 whitespace-nowrap dark:text-white"
                             rowSpan={data.Material.length}
                           >
-                            {data.TotalAmount}
+                            {Math.floor(data.TotalAmount)}
                           </td>
                         )}
                         {!searchTerm && materialIndex === 0 && (

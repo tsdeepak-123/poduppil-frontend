@@ -6,6 +6,9 @@ import ReturnButton from "../../CommonComponents/Return/ReturnButton";
 import { useLocation } from "react-router-dom"
 import PayModal from "./PayModal";
 import moment from "moment"
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
+import SwalMessage from "../../../utils/SwalMessage";
 
 function CareOfPayment() {
   const location = useLocation();
@@ -26,6 +29,24 @@ function CareOfPayment() {
   useEffect(() => {
     fetchData();
   }, [PaymentData]);
+
+  const handleDeleteCareOfPayment = async (id,careofId) => {
+    try {
+      const admin=true
+      const status= SwalMessage(`deletecareofpayment?id=${id}&careofId=${careofId}`, "Careof", "Delete",admin)
+        if(status.success){
+          Swal.fire(
+            `Careof deleted successfully` ,
+            '',
+            'success'
+          )
+        }
+    } catch (error) {
+      if (error.response && error.response.status === 401){
+        window.location.replace("/admin/login");
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col justify-between min-h-screen">
@@ -54,6 +75,9 @@ function CareOfPayment() {
                   <th scope="col" className="px-6 py-3">
                     Paid by
                   </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -75,6 +99,11 @@ function CareOfPayment() {
                       <td className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white">
                         {item.paidBy}
                       </td>
+                      <td className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white">
+                    <DeleteIcon className="text-red-500 cursor-pointer" onClick={() => {
+                          handleDeleteCareOfPayment(item?._id,careofId);
+                        }}/>
+                    </td>
                     </tr>
                   ))
                 ) : (

@@ -61,7 +61,7 @@ function ProjectList() {
                   {item.projectname}
                 </td>
                 <td className="px-6 py-4 font-medium text-green-500 whitespace-nowrap dark:text-white">
-                 <span className="flex justify-end">{item.totalAmount}</span>         
+                 <span className="flex justify-end">{Math.floor(item.totalAmount)}</span>         
                 </td>
               </tr>
             )):

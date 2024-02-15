@@ -7,11 +7,13 @@ import SwalMessage from "../../../utils/SwalMessage";
 
 function Payments({ projectId }) {
   const [cashData, setCashData] = useState();
+  const [totalPayment, setTotalPayment] = useState();
 
   const fetchData = async () => {
     try {
       const response = await axiosAdmin.get(`recievedcashbyproject?id=${projectId}`);
       setCashData(response?.data?.paymentRecords);
+      setTotalPayment(response?.data?.totalPayment)
     } catch (error) {
       if (error.response && error.response.status === 401) {
         window.location.replace("/admin/login");
@@ -45,7 +47,13 @@ function Payments({ projectId }) {
 
   return (
     <>
-      <div className="flex justify-center mt-14">
+     <div className="flex justify-center">
+  <p className="mt-8 mb-2 text-lg font-bold">
+    Total Payment &nbsp;:
+    <span className="text-green-600 ml-2">{Math.floor(totalPayment)}</span>
+  </p>
+</div>
+      <div className="flex justify-center mt-6">
         <div className="w-[50%] relative overflow-y-scroll overflow-x-auto shadow-md sm:rounded-lg max-h-[500px]">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

@@ -85,15 +85,15 @@ function CareOfTable() {
                       {item.name}
                     </td>
                     <td className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white">
-                    {item.totalAmountPurchased}
+                    {Math.floor(item.totalAmountPurchased)}
                     </td>
-                    <td className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white">
+                    <td className="px-6 py-4 font-medium text-green-600 whitespace-nowrap dark:text-white">
                       {item.paid}
                     </td>
-                    <td className="px-6 py-4 font-medium text-blue-500 whitespace-nowrap dark:text-white">
-                     {item.totalAmountPurchased-item.paid}
+                    <td className="px-6 py-4 font-medium text-red-500 whitespace-nowrap dark:text-white">
+                     {Math.floor(item.totalAmountPurchased-item.paid)}
                     </td>
-                    <td className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-blue-600 cursor-pointer" onClick={() => handleCareOfDetails(item._id,item.name)}>
+                    <td className="px-6 py-4 font-medium dark:text-blue-600 whitespace-nowrap cursor-pointer" onClick={() => handleCareOfDetails(item._id,item.name)}>
                       View
                     </td>
                     <td className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white">

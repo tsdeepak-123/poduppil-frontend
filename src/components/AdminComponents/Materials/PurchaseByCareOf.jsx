@@ -79,7 +79,7 @@ function PurchaseByCareOf({ projectname }) {
                       {item._id}
                     </td>
                     <td className="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white">
-                      {item.TotalAmount}
+                      {Math.floor(item.TotalAmount)}
                     </td>
                     <td
                       className="px-6 py-4 font-medium cursor-pointer text-blue-500"
