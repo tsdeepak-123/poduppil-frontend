@@ -24,12 +24,14 @@ function AttendanceSheet() {
 
   const fetchData = async () => {
     try {
-      const response = await axiosAdmin.get("labourslist");
-      setLabourdata(response?.data?.allLabourData);
+      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+      const response = await axiosAdmin.get(`attendancesheet?date=${formattedDate}`);
+        setLabourdata(response?.data?.attendanceData);
     } catch (error) {
       handleAPIError(error);
     }
   };
+  
 
   const fetchAttendance = async () => {
     try {
@@ -49,7 +51,7 @@ function AttendanceSheet() {
   useEffect(() => {
     fetchData();
     fetchAttendance();
-  }, []);
+  }, [selectedDate]);
 
   const handleAddLabour = () => {
     navigate("/admin/addlabour");
@@ -62,33 +64,34 @@ function AttendanceSheet() {
       [id]: value,
     }));
   };
-
-  useEffect(() => {
-    const initialValues = {};
-    labourData.forEach((item) => {
-      initialValues[item._id] = "absent";
-    });
-    setSelectedValues(initialValues);
-  }, [labourData]);
-
   
-  const updateAttendance =async () => {
-    try {
-      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-       const response=await axiosAdmin.post("labourattendance", { selectedValues, date: formattedDate })
-      
-       if (response.data.success) {
-        toast.success("Attendance updated successfully");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      } else {
-        toast.error(response.data.message,{autoClose:3000});
-      }
-    } catch (error) {
-      handleAPIError(error);
+  // Update the updateAttendance function to send only selected attendance data
+const updateAttendance = async () => {
+  try {
+    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+    const response = await axiosAdmin.post("labourattendance", {
+      selectedValues,
+      date: formattedDate,
+    });
+
+    if (response.data.success) {
+      toast.success("Attendance updated successfully");
+      // Filter out the attended laborers from the list
+      const remainingLaborers = labourData.filter(
+        (labour) => !selectedValues.hasOwnProperty(labour._id)
+      );
+      setLabourdata(remainingLaborers);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
+    } else {
+      toast.error(response.data.message, { autoClose: 3000 });
     }
-  };
+  } catch (error) {
+    handleAPIError(error);
+  }
+};
+
 
 
   useEffect(() => {

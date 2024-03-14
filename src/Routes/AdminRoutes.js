@@ -46,6 +46,7 @@ import Account from '../pages/AdminPages/Account/Account'
 import UserHomeControll from '../pages/AdminPages/UserHome/UserHomeControll'
 import EditStaff from '../pages/AdminPages/Staff/EditStaff'
 import CareOfPayments from '../pages/AdminPages/Materials/CareOfPayments'
+import Advance from '../pages/AdminPages/ViewSalary/Advance'
 
 function AdminRoutes() {
   const [cookies, setCookies] = useCookies(['AdminsecretKey']);
@@ -113,6 +114,7 @@ function AdminRoutes() {
        <Route path='/adminaacount' element={adminToken?<Account/>:<LoginPage/>}/>
        <Route path='/userhomecontroll' element={adminToken?<UserHomeControll/>:<LoginPage/>}/>
        <Route path='/careofpayments' element={adminToken?<CareOfPayments/>:<LoginPage/>}/>
+       <Route path='/advancehistory' element={adminToken?<Advance/>:<LoginPage/>}/>
     </Routes>
     </div>
   )

@@ -138,12 +138,12 @@ if (datePortion) {
             ) : (
               ""
             )}
-            {StaffData?.advance || StaffData?.advance == 0 ? (
+            {StaffData?.totalAdvance || StaffData?.totalAdvance > 0 ? (
               <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-lg font-semibold mb-2">Advance</h2>
                 <p className="flex">
                   <LuIndianRupee className="mt-1" />
-                  {StaffData?.advance}
+                  {StaffData?.totalAdvance}
                 </p>
               </div>
             ) : (
@@ -185,6 +185,10 @@ if (datePortion) {
             <div class="bg-white p-6 rounded-lg shadow-lg">
               <h2 class="text-lg font-semibold mb-2">Salary History</h2>
               <p className="text-blue-500 cursor-pointer" onClick={()=>{navigate("/admin/salaryhistory",{state:{staffId}})}}>View History</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+              <h2 class="text-lg font-semibold mb-2">Advance History</h2>
+              <p className="text-blue-500 cursor-pointer" onClick={()=>{navigate("/admin/advancehistory",{state:{staffId}})}}>View History</p>
             </div>
             <div className="mt-6 flex flex-row gap-4">
   

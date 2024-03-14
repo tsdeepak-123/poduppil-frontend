@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { axiosAdmin } from '../../../Api/Api'
+import moment from 'moment'
 
 const modalStyle = {
   position: 'absolute',
@@ -20,19 +21,25 @@ const modalStyle = {
 
 function AdvancedModal({labourId,staffId}) {
   const [open, setOpen] = useState(false);
-  const [advance, setAdvance] = useState()
+  const [amount, setAdvance] = useState()
+  const [date, setDate] = useState()
    
 
   const handleAdvanceChange=(e)=>{
     setAdvance(e.target.value)
   }
+  const handleAdvanceDate=(e)=>{
+    setDate(e.target.value)
+  }
 
   const handleSubmit=async(e)=>{
     try {
+      // const formattedDate = moment(date).format("YYYY-MM-DD");
+      // console.log(formattedDate);
       e.preventDefault()
       const id = labourId ? labourId : staffId;
       const endpoint = labourId ? 'labouradvance' : 'staffadvance'; 
-     await axiosAdmin.post(`${endpoint}?id=${id}`,{advance})
+     await axiosAdmin.post(`${endpoint}?id=${id}`,{amount,date})
   
      if (typeof handleClose === 'function') {
       handleClose();
@@ -65,7 +72,10 @@ function AdvancedModal({labourId,staffId}) {
             Salary Advance
           </Typography>
           <div className='mb-4'>
-          <TextField label="Advance" type="number" fullWidth value={advance} onChange={handleAdvanceChange}/>
+          <TextField label="Date" type="date" fullWidth InputLabelProps={{shrink:true}} value={date} onChange={handleAdvanceDate}/>
+          </div>
+          <div className='mb-4'>
+          <TextField label="Advance" type="number" fullWidth value={amount} onChange={handleAdvanceChange}/>
           </div>
           <Button variant="contained" color="success" fullWidth onClick={handleSubmit}>
             Submit

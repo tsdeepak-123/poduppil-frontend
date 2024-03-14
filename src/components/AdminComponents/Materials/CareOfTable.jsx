@@ -24,7 +24,7 @@ function CareOfTable() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [CareOf]);
 
 
   const handleDeleteCareOf = async (id) => {

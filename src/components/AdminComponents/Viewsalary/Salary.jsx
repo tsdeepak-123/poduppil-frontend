@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Buttons from "../../CommonComponents/Button/Buttons";
-import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosAdmin } from "../../../Api/Api";
 import { LuIndianRupee } from "react-icons/lu";
@@ -146,17 +145,14 @@ function Salary() {
         ) : (
           ""
         )}
-        {LabourData?.advance || LabourData?.advance == 0 ? (
-          <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h2 class="text-lg font-semibold mb-2">Advance</h2>
-            <p className="flex">
-              <LuIndianRupee className="mt-1" />
-              {LabourData?.advance}
-            </p>
-          </div>
-        ) : (
-          ""
-        )}
+    {LabourData?.totalAdvance && LabourData?.totalAdvance > 0 ? (
+  <div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-lg font-semibold mb-2">Advance</h2>
+    <p className="flex"><LuIndianRupee className="mt-1"/>{LabourData?.totalAdvance}</p>
+  </div>
+) : (
+  ""
+)}
         {LabourData?.balance ? (
           <div class="bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-lg font-semibold mb-2">Balance</h2>
@@ -194,6 +190,10 @@ function Salary() {
           <h2 class="text-lg font-semibold mb-2">Salary History</h2>
           <p className="text-blue-500 cursor-pointer"onClick={()=>{navigate("/admin/salaryhistory",{state:{labourId}})}} >View History</p>
         </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+              <h2 class="text-lg font-semibold mb-2">Advance History</h2>
+              <p className="text-blue-500 cursor-pointer" onClick={()=>{navigate("/admin/advancehistory",{state:{labourId}})}}>View History</p>
+            </div>
         <div className="mt-6 flex flex-row gap-4">
 
           <input

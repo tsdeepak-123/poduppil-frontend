@@ -108,7 +108,7 @@ function CareOfPayment() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="text-center py-4">
+                    <td colSpan="5" className="text-center py-4">
                       No data available
                     </td>
                   </tr>
