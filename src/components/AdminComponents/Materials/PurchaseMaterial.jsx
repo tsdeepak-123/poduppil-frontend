@@ -7,16 +7,13 @@ import Buttons from "../../CommonComponents/Button/Buttons";
 import AddMaterialModal from "./AddMaterialModal";
 import TextFields from "../../CommonComponents/TextFields/TextFields";
 import PurchaseTable from "./PurchaseTable";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
 import Nodata from "../../CommonComponents/Nodata/Nodata";
 import AddCareOfModal from "./AddCareOfModal";
 import moment from "moment"
+import { Box, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
+
 
 function PurchaseMaterial() {
   const location = useLocation();

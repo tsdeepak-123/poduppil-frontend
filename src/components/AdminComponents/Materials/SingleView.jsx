@@ -4,8 +4,11 @@ import Search from "../../CommonComponents/Search/Search"
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from 'sweetalert2';
 import SwalMessage from "../../../utils/SwalMessage"
+import Buttons from "../../CommonComponents/Button/Buttons";
+import { useNavigate } from "react-router-dom";
 
 function SingleView({ materialData }) {
+  const navigate=useNavigate()
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTotalRate, setFilteredTotalRate] = useState(0);
   const [filteredMaterialData, setFilteredMaterialData] = useState([]);
@@ -19,6 +22,9 @@ function SingleView({ materialData }) {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+  };
+  const handlePurchase = () => {
+    navigate('/admin/purchasematerial')
   };
 
   useEffect(() => {
@@ -73,6 +79,9 @@ function SingleView({ materialData }) {
     <>
       <div className="mx-20 mt-14 flex justify-between">
         <Search value={searchTerm} onChange={handleSearch} />
+        <div>
+            <Buttons name="MATERIAL PURCHASE" click={handlePurchase} />
+          </div>
         {filteredTotalRate === 0 ? (
           ""
         ) : (

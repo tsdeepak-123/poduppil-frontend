@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosAdmin } from "../../../Api/Api";
-import AddNav from '../../CommonComponents/AddNav/AddNav';
+import AddNav from "../../CommonComponents/AddNav/AddNav";
 import Loading from "../../CommonComponents/Loading/Loading";
-
+import Buttons from "../../CommonComponents/Button/Buttons";
 
 function ProjectList() {
   const navigate = useNavigate();
@@ -11,15 +11,15 @@ function ProjectList() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handlePurchaseClick = () => {
-    navigate('/admin/purchasematerial');
+    navigate("/admin/purchasematerial");
   };
-  const handleSearch=(e)=>{
-    setSearchTerm(e.target.value)
-  }
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   const fetchData = async () => {
     try {
-      const response = await axiosAdmin.get('/materialtotal');
+      const response = await axiosAdmin.get("/materialtotal");
       setPurchaseData(response?.data?.projectTotals);
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -27,59 +27,79 @@ function ProjectList() {
       }
     }
   };
-  
+
   useEffect(() => {
-    fetchData(); 
+    fetchData();
   }, []);
 
   const filteredPurchaseData = purchaseData?.filter((obj) =>
-  obj.projectname?.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    obj.projectname?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleProjects=()=>{
+    navigate('/admin/projectdetails')
+  }
 
   return (
     <>
-      <AddNav name="+ PURCHASE MATERIAL" click={ handlePurchaseClick} value={searchTerm} onChange={handleSearch} navigation={"/admin/dashboard"}/>
-      {!filteredPurchaseData ? (
-   <Loading/>
-      ):(
-        <div className="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]" >
-        <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr >
-              <th scope="col" className="px-6 py-3">
-                Project name
-              </th>
-              <th scope="col" className="px-6 py-3">
-              <span className="flex justify-end">Total purchased amount</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredPurchaseData ? filteredPurchaseData && filteredPurchaseData.map((item, index) => (
-              <tr key={index} className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {item.projectname}
-                </td>
-                <td className="px-6 py-4 font-medium text-green-500 whitespace-nowrap dark:text-white">
-                 <span className="flex justify-end">{Math.floor(item.totalAmount)}</span>         
-                </td>
-              </tr>
-            )):
-            <tr>
-            <td colspan="8" class="text-center py-4">
-              No data available
-              
-            </td>
-          </tr>
-            }
-          </tbody>
-        </table>
-
+    <div className="">
+    <AddNav
+        name="+ PURCHASE MATERIAL"
+        click={handlePurchaseClick}
+        value={searchTerm}
+        onChange={handleSearch}
+        navigation={"/admin/dashboard"}
+      />
+      <div className="flex justify-end mr-64">
+        <Buttons name="View Projects" click={handleProjects} />
+      </div>
     </div>
-      )
-
-      }
-      
+      {!filteredPurchaseData ? (
+        <Loading />
+      ) : (
+        <div className="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
+          <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Project name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  <span className="flex justify-end">
+                    Total purchased amount
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredPurchaseData ? (
+                filteredPurchaseData &&
+                filteredPurchaseData.map((item, index) => (
+                  <tr
+                    key={index}
+                    className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                  >
+                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {item.projectname}
+                    </td>
+                    <td className="px-6 py-4 font-medium text-green-500 whitespace-nowrap dark:text-white">
+                      <span className="flex justify-end">
+                        {Math.floor(item.totalAmount)}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colspan="8" class="text-center py-4">
+                    No data available
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </>
   );
 }
