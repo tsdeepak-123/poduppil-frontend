@@ -27,6 +27,9 @@ function Office() {
     const handleRecievedCash=()=>{
         navigate('/admin/recievedcash')
     }
+    const handleOwnerExpense=()=>{
+        navigate('/admin/ownerexpense')
+    }
   return (
     <>
 <ReturnButton navigation={"/admin/dashboard"}/>
@@ -38,6 +41,7 @@ function Office() {
       <ItemCard classes={'mx-auto mt-8'} name="RECIEVED CASH" discription="" navigation={handleRecievedCash}/>
       <ItemCard classes={'mx-auto mt-8'} name="USER HOME CONTROLL" discription="" navigation={handleUserHome}/>
       <ItemCard classes={'mx-auto mt-8'} name="ADMIN ACCOUNT" discription="" navigation={ handleAdminAccount}/>
+      <ItemCard classes={'mx-auto mt-8'} name="OWNER EXPENSE" discription="" navigation={ handleOwnerExpense}/>
     </div>
     <div className='mt-4'>
       <Footer/>
