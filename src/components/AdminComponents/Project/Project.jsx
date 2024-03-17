@@ -7,31 +7,30 @@ import Buttons from "../../CommonComponents/Button/Buttons";
 import Loading from "../../CommonComponents/Loading/Loading";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import SwalMessage from "../../../utils/SwalMessage"
+import SwalMessage from "../../../utils/SwalMessage";
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 
 function Project() {
   const navigate = useNavigate();
-  const [ProjectData, setProjectData] = useState();
+  const [projectData, setProjectData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const handleAddProjectClick = () => {
-    navigate("/admin/addproject");
-  };
-  const handleCompletedProjects = () => {
-    navigate("/admin/completedprojects");
-  };
-
-  //editing project data
-
-  const handleEdit = (projectData) => {
-    navigate(`/admin/editproject`, { state: { projectData } });
-  };
-
-  // fetching data from backend
-  const fetchData = async () => {
+  const fetchProjects = async () => {
     try {
-      const response = await axiosAdmin.get("projectList?status=false");
-      setProjectData(response?.data?.FindProject);
+      setLoading(true);
+      const response = await axiosAdmin.get("projectList", {
+        params: {
+          status: false,
+          page: currentPage,
+          searchTerm: searchTerm,
+        },
+      });
+      setProjectData(response.data.FindProject);
+      setTotalPages(Math.ceil(response.data.totalCount / 10)); // Assuming 10 items per page
+      setLoading(false);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         window.location.replace("/admin/login");
@@ -39,64 +38,69 @@ function Project() {
     }
   };
 
-  //data displaying when mounting
   useEffect(() => {
-    fetchData();
-  }, [ProjectData]);
+    fetchProjects();
+  }, [currentPage, searchTerm]); // Trigger fetch on page change or search term change
+
+  const handleAddProjectClick = () => {
+    navigate("/admin/addproject");
+  };
+
+  const handleCompletedProjects = () => {
+    navigate("/admin/completedprojects");
+  };
+
+  const handleEdit = (projectData) => {
+    navigate(`/admin/editproject`, { state: { projectData } });
+  };
 
   const nav = (id, projectname) => {
-    console.log("porr", projectname);
     navigate("/admin/projectview", { state: { id, projectname } });
   };
 
-  const filteredProjectData = ProjectData?.filter((obj) =>
-    obj.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleDeleteProject = async (id) => {
+    try {
+      const admin = true;
+      const status = await SwalMessage(`deleteproject?id=${id}`, "Project", "Delete", admin);
+      if (status.success) {
+        Swal.fire(`Project deleted successfully`, "", "success");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.location.replace("/admin/login");
+      }
+    }
+  };
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-
-  const handleDeleteProject = async (id) => {
-    try {
-      const admin=true
-      const status= SwalMessage(`deleteproject?id=${id}`, "Project", "Delete",admin)
-        if(status.success){
-          Swal.fire(
-            `Project deleted successfully` ,
-            '',
-            'success'
-          )
-        }
-    } catch (error) {
-      if (error.response && error.response.status === 401){
-        window.location.replace("/admin/login");
-      }
-    }
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
+
   return (
     <>
-   <div className="w-full flex flex-col lg:flex-row">
-  <div className="w-full lg:w-[80%] mb-4 lg:mb-0">
-    <AddNav
-      name="+ ADD NEW PROJECT"
-      click={handleAddProjectClick}
-      value={searchTerm}
-      onChange={handleSearch}
-      navigation={"/admin/dashboard"}
-    />
-  </div>
-  <div className="w-[100px] mx-56 sm:mx-0 sm:w-full lg:w-[20%] sm:mt-48">
-    <Buttons name="COMPLETED PROJECT" click={handleCompletedProjects} />
-  </div>
-</div>
+      <div className="w-full flex flex-col lg:flex-row">
+        <div className="w-full mb-4 lg:mb-0">
+          <AddNav
+            name="+ ADD NEW PROJECT"
+            click={handleAddProjectClick}
+            value={searchTerm}
+            onChange={handleSearch}
+            navigation={"/admin/dashboard"}
+            viewClick={handleCompletedProjects}
+            twoButton={true}
+            viewButtonName="COMPLETED PROJECTS"
+          />
+        </div>
+      </div>
 
-      {
-        !filteredProjectData ?(
-          <Loading/>
-        ):(
-          <div className="relative overflow-x-scroll overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="relative overflow-x-scroll overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -109,7 +113,6 @@ function Project() {
                 <th scope="col" className="px-6 py-3">
                   Status
                 </th>
-  
                 <th scope="col" className="px-6 py-3">
                   Details
                 </th>
@@ -119,8 +122,8 @@ function Project() {
               </tr>
             </thead>
             <tbody>
-              {filteredProjectData && filteredProjectData.length > 0 ? (
-                filteredProjectData?.map((data) => {
+              {projectData && projectData.length > 0 ? (
+                projectData?.map((data) => {
                   return (
                     <tr
                       key={data?._id}
@@ -162,9 +165,26 @@ function Project() {
             </tbody>
           </table>
         </div>
-        )
-      }
-      
+      )}
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <button
+          className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <KeyboardArrowLeft/>
+        </button>
+        <span>{currentPage} of {totalPages}</span>
+        <button
+          className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          <KeyboardArrowRight/>
+        </button>
+      </div>
     </>
   );
 }

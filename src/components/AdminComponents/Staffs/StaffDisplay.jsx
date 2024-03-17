@@ -6,12 +6,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Loading from "../../CommonComponents/Loading/Loading";
 import Swal from "sweetalert2";
-import SwalMessage from "../../../utils/SwalMessage"
+import SwalMessage from "../../../utils/SwalMessage";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 function StaffDisplay() {
   const navigate = useNavigate();
   const [staffData, setStaffData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleAddStaffClick = () => {
     navigate("/admin/addstaff");
@@ -25,12 +28,12 @@ function StaffDisplay() {
     });
   };
 
-  // fetching data from backend
+  // fetching data from backend with pagination and search
   const fetchData = async () => {
     try {
-      const response = await axiosAdmin.get("staffslist");
-
+      const response = await axiosAdmin.get(`staffslist?page=${currentPage}&searchTerm=${searchTerm}`);
       setStaffData(response?.data?.allStaffData);
+      setTotalPages(Math.ceil(response.data.totalCount / 10)); // Assuming 10 items per page
     } catch (error) {
       if (error.response && error.response.status === 401) {
         window.location.replace("/admin/login");
@@ -38,25 +41,25 @@ function StaffDisplay() {
     }
   };
 
-  const filteredstaffData = staffData?.filter((obj) =>
-    obj.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  //data displaying when mounting
   useEffect(() => {
     fetchData();
-  }, [staffData]);
-  const nav = (id) => {
-    navigate("/admin/staffprofile", { state: { id } });
+  }, [currentPage, searchTerm]);
+
+  const handlePagination = (page) => {
+    setCurrentPage(page);
   };
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const nav = (id) => {
+    navigate("/admin/staffprofile", { state: { id } });
   };
 
   const handleEdit = (staffData) => {
     navigate(`/admin/editstaff`, { state: { staffData } });
   };
-
 
   const handleDeleteStaff = async (id,e) => {
     try {
@@ -75,6 +78,7 @@ function StaffDisplay() {
       }
     }
   };
+
   return (
     <>
       <AddNav
@@ -84,10 +88,11 @@ function StaffDisplay() {
         onChange={handleSearch}
         navigation={"/admin/dashboard"}
       />
-      {!filteredstaffData ? (
+      {!staffData ? (
         <Loading />
       ) : (
-        <div class="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
+        <div className="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
+          <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
           <table class="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -124,8 +129,8 @@ function StaffDisplay() {
               </tr>
             </thead>
             <tbody>
-              {filteredstaffData && filteredstaffData.length > 0 ? (
-                filteredstaffData.map((obj,index) => (
+              {staffData && staffData.length > 0 ? (
+                staffData.map((obj,index) => (
                   <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                     <th
                       scope="row"
@@ -203,8 +208,27 @@ function StaffDisplay() {
               )}
             </tbody>
           </table>
+          </table>
         </div>
       )}
+        {/* Pagination */}
+        <div className="flex justify-center mt-4">
+        <button
+          className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded"
+          onClick={() => handlePagination(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <KeyboardArrowLeft/>
+        </button>
+        <span>{currentPage} of {totalPages}</span>
+        <button
+          className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded"
+          onClick={() => handlePagination(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          <KeyboardArrowRight/>
+        </button>
+      </div>
     </>
   );
 }

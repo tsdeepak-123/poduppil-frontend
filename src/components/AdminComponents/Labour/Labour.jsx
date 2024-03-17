@@ -2,26 +2,29 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosAdmin } from "../../../Api/Api";
 import AddNav from "../../CommonComponents/AddNav/AddNav";
-import EditIcon from "@mui/icons-material/Edit";
 import Loading from "../../CommonComponents/Loading/Loading";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import SwalMessage from "../../../utils/SwalMessage"
+import SwalMessage from "../../../utils/SwalMessage";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 function Labour() {
   const navigate = useNavigate();
-  const [labourData, setLabourData] = useState();
+  const [labourData, setLabourData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleAddLabourClick = () => {
     navigate("/admin/addlabour");
   };
 
-  // fetching data from backend
   const fetchData = async () => {
     try {
-      const response = await axiosAdmin.get("labourslist");
+      const response = await axiosAdmin.get(`labourslist?page=${currentPage}&searchTerm=${searchTerm}`);
       setLabourData(response.data.allLabourData);
+      setTotalPages(Math.ceil(response.data.totalCount / 10)); // Assuming 10 items per page
     } catch (error) {
       if (error.response && error.response.status === 401) {
         window.location.replace("/admin/login");
@@ -29,18 +32,17 @@ function Labour() {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, [currentPage, searchTerm]);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
-  const filteredLabourData = labourData?.filter((obj) =>
-    obj.name.toLowerCase().includes(searchTerm.toLowerCase())||
-    (obj.adhar && obj.adhar.toString().includes(searchTerm))
-  );
 
-  //data displayin when mounting
-  useEffect(() => {
-    fetchData();
-  }, [labourData]);
+  const handlePagination = (page) => {
+    setCurrentPage(page);
+  };
 
   const nav = (id) => {
     navigate("/admin/viewprofile", { state: { id } });
@@ -86,11 +88,11 @@ function Labour() {
         onChange={handleSearch}
         navigation={"/admin/dashboard"}
       />
-      {!filteredLabourData ? (
+      {!labourData ? (
         <Loading />
       ) : (
-        <div class="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <div className="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="px-6 py-3">
@@ -126,8 +128,8 @@ function Labour() {
               </tr>
             </thead>
             <tbody>
-              {filteredLabourData && filteredLabourData.length > 0 ? (
-                filteredLabourData.map((obj,index) => (
+              {labourData && labourData.length > 0 ? (
+                labourData.map((obj,index) => (
                   <tr
                     key={obj._id}
                     class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
@@ -220,6 +222,24 @@ function Labour() {
           </table>
         </div>
       )}
+           {/* Pagination */}
+           <div className="flex justify-center mt-4">
+        <button
+          className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded"
+          onClick={() => handlePagination(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <KeyboardArrowLeft/>
+        </button>
+        <span>{currentPage} of {totalPages}</span>
+        <button
+          className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded"
+          onClick={() => handlePagination(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          <KeyboardArrowRight/>
+        </button>
+      </div>
     </>
   );
 }

@@ -15,13 +15,13 @@ function ProjectLists() {
         <Header headers="MATERIAL DETAILS"/>
         <ProjectList/>
         <div className='mt-20'>
-          <p className='flex justify-center font-serif font-bold text-[30px]'>Total Purchase By</p>
+          <p className='flex justify-center font-serif font-bold text-[30px]'>Total Credit Purchase</p>
           <PurchaseByCareOf/>
         </div>
-        <div className='mt-20'>
+        {/* <div className='mt-20'>
           <p className='flex justify-center font-serif font-bold text-[30px]'>Careof List</p>
           <CareOfTable/>
-        </div>
+        </div> */}
         <div className='mt-40'>
         <Footer/>
         </div>

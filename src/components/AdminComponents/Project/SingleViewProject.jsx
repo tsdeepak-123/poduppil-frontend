@@ -16,7 +16,7 @@ const SingleViewProject = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [projectData, setProjectData] = useState(null);
-  const [materialData, setMaterialData] = useState(null);
+ 
 
   const id = location?.state?.id;
   const projectname = location?.state?.projectname;
@@ -33,16 +33,7 @@ const SingleViewProject = () => {
     }
   };
 
-  const fetchMaterialData = async () => {
-    try {
-      const response = await axiosAdmin.get(`PurchaseBillById?projectid=${id}`);
-      setMaterialData(response?.data?.PurchaseData);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login");
-      }
-    }
-  };
+
 
   const handleCompletedProjects = async () => {
     try {
@@ -76,8 +67,7 @@ const SingleViewProject = () => {
   // Data displaying when mounting
   useEffect(() => {
     fetchData();
-    fetchMaterialData();
-  }, [id, materialData]);
+  }, [id]);
 
   return (
     <>
@@ -184,7 +174,7 @@ const SingleViewProject = () => {
               Material Used For This Project
             </p>
           </div>
-          <SingleView materialData={materialData} />
+          <SingleView id={id}/>
           <div className="flex flex-wrap justify-center mt-14">
             <p className=" font-serif font-bold text-[30px]">
               Contracts works of this project

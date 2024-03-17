@@ -5,6 +5,8 @@ import moment from "moment"
 import Swal from "sweetalert2";
 import SwalMessage from "../../../utils/SwalMessage";
 import {useNavigate} from "react-router-dom"
+import Footer from "../Footer/Footer";
+import ReturnButton from "../../CommonComponents/Return/ReturnButton";
 
 function CareOfTable() {
   const [CareOf, setCareOf] = useState();
@@ -51,8 +53,12 @@ function CareOfTable() {
   }
 
   return (
-    <>
-      <div className="flex justify-center mt-14">
+    <div className="flex flex-col justify-between gap-14 min-h-screen">
+      <div>
+      <ReturnButton navigation={'/admin/officedetails'}/>
+      </div>
+    {/* <div className="flex flex-col justify-between min-h-screen"> */}
+      <div className="flex justify-center">
         <div className="w-[80%] relative overflow-y-scroll overflow-x-auto shadow-md sm:rounded-lg max-h-[500px]">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -114,7 +120,12 @@ function CareOfTable() {
           </table>
         </div>
       </div>
-    </>
+    {/* </div> */}
+    <div>
+    <Footer/>
+    </div>
+    
+    </div>
   );
 }
 

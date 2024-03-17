@@ -41,7 +41,7 @@ function Header({ headers }) {
 
   return (
     <div>
-      <Toaster position="top-right"/>
+      {/* <Toaster position="top-right"/> */}
       <header className='flex justify-between fixed top-0 w-full z-50'>
         <div>
           <div className='w-[150px] h-auto'>

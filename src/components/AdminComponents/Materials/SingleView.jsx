@@ -1,30 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormatDate from "../../../utils/FormatDate";
-import Search from "../../CommonComponents/Search/Search"
+import Search from "../../CommonComponents/Search/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Swal from 'sweetalert2';
-import SwalMessage from "../../../utils/SwalMessage"
+import Swal from "sweetalert2";
+import SwalMessage from "../../../utils/SwalMessage";
 import Buttons from "../../CommonComponents/Button/Buttons";
 import { useNavigate } from "react-router-dom";
+import { axiosAdmin } from "../../../Api/Api";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
-function SingleView({ materialData }) {
-  const navigate=useNavigate()
+function SingleView({ id }) {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredTotalRate, setFilteredTotalRate] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [materialData, setMaterialData] = useState(null);
   const [filteredMaterialData, setFilteredMaterialData] = useState([]);
 
+  const fetchMaterialData = async () => {
+    try {
+      const response = await axiosAdmin.get(
+        `PurchaseBillById?projectid=${id}&page=${currentPage}&limit=10&searchTerm=${searchTerm}`
+      );
+      setMaterialData(response?.data?.PurchaseData);
+      setTotalPages(Math.ceil(response?.data?.totalCount / 10)); // Assuming limit is 10
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.location.replace("/admin/login");
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchMaterialData();
+  }, [id, currentPage, searchTerm]);
+
   const applySearchFilter = (data, term) => {
-    return data.filter((material) =>
-      material.name?.toLowerCase().includes(term.toLowerCase()) ||
-      material.careof?.toLowerCase().includes(term.toLowerCase())
+    return data.filter(
+      (material) =>
+        material.name?.toLowerCase().includes(term.toLowerCase()) ||
+        material.careof?.toLowerCase().includes(term.toLowerCase())
     );
   };
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset current page when performing a new search
   };
+
   const handlePurchase = () => {
-    navigate('/admin/purchasematerial')
+    navigate("/admin/purchasematerial");
   };
 
   useEffect(() => {
@@ -51,28 +76,32 @@ function SingleView({ materialData }) {
         }
       });
 
-      setFilteredTotalRate(searchTerm ? totalRate : totalRate);
+      // setFilteredTotalRate(searchTerm ? totalRate : totalRate);
       setFilteredMaterialData(filteredData);
     }
   }, [materialData, searchTerm]);
 
-
   const handleDeleteBill = async (id) => {
     try {
-      const admin=true
-      const status= SwalMessage(`deletepurchasebill?id=${id}`, "Bill", "Delete",admin)
-        if(status.success){
-          Swal.fire(
-            `Bill deleted successfully` ,
-            '',
-            'success'
-          )
-        }
+      const admin = true;
+      const status = SwalMessage(
+        `deletepurchasebill?id=${id}`,
+        "Bill",
+        "Delete",
+        admin
+      );
+      if (status.success) {
+        Swal.fire(`Bill deleted successfully`, "", "success");
+      }
     } catch (error) {
-      if (error.response && error.response.status === 401){
+      if (error.response && error.response.status === 401) {
         window.location.replace("/admin/login");
       }
     }
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -80,18 +109,8 @@ function SingleView({ materialData }) {
       <div className="mx-20 mt-14 flex justify-between">
         <Search value={searchTerm} onChange={handleSearch} />
         <div>
-            <Buttons name="MATERIAL PURCHASE" click={handlePurchase} />
-          </div>
-        {filteredTotalRate === 0 ? (
-          ""
-        ) : (
-          <div className="flex ml-4">
-            <p className="font-bold text-xl border-b-2 border-gray-300 pb-2 inline-block">
-              Total&nbsp;:{" "}
-              <span className="text-red-500 ms-4">{Math.floor(filteredTotalRate)}</span>
-            </p>
-          </div>
-        )}
+          <Buttons name="MATERIAL PURCHASE" click={handlePurchase} />
+        </div>
       </div>
 
       <div className="flex justify-center mt-8">
@@ -126,12 +145,11 @@ function SingleView({ materialData }) {
                 )}
                 {!searchTerm ? (
                   <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
+                    Action
+                  </th>
                 ) : (
                   ""
                 )}
-
               </tr>
             </thead>
             <tbody>
@@ -179,12 +197,14 @@ function SingleView({ materialData }) {
                             className="px-6 py-4 font-medium text-red-500 whitespace-nowrap dark:text-white"
                             rowSpan={data.Material.length}
                           >
-                            <DeleteIcon className="text-red-500 cursor-pointer" onClick={() => {
-                          handleDeleteBill(data?._id);
-                        }}/>
+                            <DeleteIcon
+                              className="text-red-500 cursor-pointer"
+                              onClick={() => {
+                                handleDeleteBill(data?._id);
+                              }}
+                            />
                           </td>
                         )}
-
                       </tr>
                     ))}
                   </React.Fragment>
@@ -200,6 +220,24 @@ function SingleView({ materialData }) {
           </table>
         </div>
       </div>
+      <div className="flex justify-center mt-4">
+  <button 
+    className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded" 
+    onClick={() => handlePageChange(currentPage - 1)} 
+    disabled={currentPage === 1}
+  >
+    <KeyboardArrowLeft />
+  </button>
+  <span>{currentPage} of {totalPages}</span>
+  <button 
+    className="mx-2 px-3 py-1 bg-gray-200 text-gray-500 rounded" 
+    onClick={() => handlePageChange(currentPage + 1)} 
+    disabled={currentPage === totalPages}
+  >
+    <KeyboardArrowRight />
+  </button>
+</div>
+
     </>
   );
 }

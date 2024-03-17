@@ -50,7 +50,7 @@ function CareOfPayment() {
 
   return (
     <div className="flex flex-col justify-between min-h-screen">
-      <ReturnButton navigation={"/admin/projectlist"}/>
+      <ReturnButton navigation={"/admin/creditbalance"}/>
       <div className="flex justify-between mx-80 mb-4">
         <p className="font-bold">CARE OF : <span className="text-red-500">{careofName} </span> </p>
         <PayModal careof={careofId}/>

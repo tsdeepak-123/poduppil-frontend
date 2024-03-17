@@ -5,7 +5,7 @@ import Buttons from '../Button/Buttons'
 import Search from '../Search/Search'
 
 
-function AddNav({name,click,value,onChange,navigation}) {
+function AddNav({name,click,value,onChange,navigation,viewClick,twoButton,viewButtonName}) {
     const navigate=useNavigate()
     const handleBackArrowClick=()=>{
         navigate(navigation)
@@ -21,9 +21,23 @@ function AddNav({name,click,value,onChange,navigation}) {
     <div className='relative top-20 block sm:hidden'>
     <Buttons name="+" click={click}/>
     </div>
-    <div className='relative top-20 hidden sm:block'>
-    <Buttons name={name} click={click}/>
-    </div>
+    {
+      !twoButton ?
+      <div className='relative top-20 hidden sm:block'>
+      <Buttons name={name} click={click}/>
+      </div>:""
+    }
+  
+    { twoButton ?
+    <>
+      <div className='relative top-20 left-96 hidden sm:block'>
+      <Buttons name={name} click={click}/>
+      </div>
+    <div className="relative top-20">
+    <Buttons name={viewButtonName} click={viewClick} />
+  </div> </>:""
+    }
+
     </div>
     <div className="ms-6 mt-9">
    <Search value={value} onChange={onChange}/>

@@ -55,7 +55,7 @@ function AddExpenseModal() {
 
   return (
     <>
-      <Button onClick={handleOpen} variant="outlined" color="success">
+      <Button onClick={handleOpen} variant="contained" color="success">
         OWNER EXPENSE
       </Button>
       <Modal

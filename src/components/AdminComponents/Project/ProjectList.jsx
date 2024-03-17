@@ -49,10 +49,10 @@ function ProjectList() {
         value={searchTerm}
         onChange={handleSearch}
         navigation={"/admin/dashboard"}
+        viewClick={handleProjects}
+        twoButton={true}
+        viewButtonName="View Projects"
       />
-      <div className="flex justify-end mr-64">
-        <Buttons name="View Projects" click={handleProjects} />
-      </div>
     </div>
       {!filteredPurchaseData ? (
         <Loading />
