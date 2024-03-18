@@ -4,18 +4,12 @@ import { axiosAdmin } from "../../../Api/Api";
 import AddNav from "../../CommonComponents/AddNav/AddNav";
 import Loading from "../../CommonComponents/Loading/Loading";
 import Buttons from "../../CommonComponents/Button/Buttons";
+import Search from "../../CommonComponents/Search/Search";
 
 function ProjectList() {
   const navigate = useNavigate();
   const [purchaseData, setPurchaseData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const handlePurchaseClick = () => {
-    navigate("/admin/purchasematerial");
-  };
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
 
   const fetchData = async () => {
     try {
@@ -36,27 +30,21 @@ function ProjectList() {
     obj.projectname?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleProjects=()=>{
-    navigate('/admin/projectdetails')
-  }
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
 
   return (
     <>
-    <div className="">
-    <AddNav
-        name="+ PURCHASE MATERIAL"
-        click={handlePurchaseClick}
-        value={searchTerm}
-        onChange={handleSearch}
-        navigation={"/admin/dashboard"}
-        viewClick={handleProjects}
-        twoButton={true}
-        viewButtonName="View Projects"
-      />
-    </div>
+    
       {!filteredPurchaseData ? (
         <Loading />
       ) : (
+        <>
+        <div className="mx-8">
+        <Search value={searchTerm} onChange={handleSearch} />
+        </div>
         <div className="relative overflow-x-auto overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
           <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -99,6 +87,7 @@ function ProjectList() {
             </tbody>
           </table>
         </div>
+        </>
       )}
     </>
   );
