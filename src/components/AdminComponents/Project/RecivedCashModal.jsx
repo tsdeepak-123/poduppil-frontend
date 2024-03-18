@@ -80,7 +80,7 @@ function RecivedCashModal() {
 
   const fetchData = async () => {
     try {
-      const response = await axiosAdmin.get("projectList?status=false");
+      const response = await axiosAdmin.get("allprojects?status=false");
       setProjectData(response?.data?.FindProject);
     } catch (error) {
       if (error.response && error.response.status === 401) {
