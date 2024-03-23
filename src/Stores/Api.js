@@ -15,7 +15,7 @@
 
 // export const adminApi ='http://localhost:5001/admin/'    
 
-export const userApi ='https://backend.poduppilconstructions.com'
+export const userApi ='https://server.poduppilconstructions.com'
 
 
-export const adminApi ='https://backend.poduppilconstructions.com/admin'
+export const adminApi ='https://server.poduppilconstructions.com/admin'
