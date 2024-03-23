@@ -1,5 +1,3 @@
-require('dotenv')
-
 
 export const userApi ="https://backend.poduppilconstructions.com/"
 
