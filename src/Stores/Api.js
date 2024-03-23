@@ -1,10 +1,10 @@
 require('dotenv')
 
 
-export const userApi =process.env.BackendLink
+export const userApi ="https://backend.poduppilconstructions.com/"
 
 
-export const adminApi =process.env.BackendAdminLink    
+export const adminApi ="https://backend.poduppilconstructions.com/admin/" 
 // export const userApi ='http://localhost:5001/'
 
 
