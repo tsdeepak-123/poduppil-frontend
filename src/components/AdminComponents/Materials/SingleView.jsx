@@ -79,7 +79,7 @@ function SingleView({ id }) {
       // setFilteredTotalRate(searchTerm ? totalRate : totalRate);
       setFilteredMaterialData(filteredData);
     }
-  }, [materialData, searchTerm]);
+  }, [materialData, searchTerm,filteredMaterialData]);
 
   const handleDeleteBill = async (id) => {
     try {

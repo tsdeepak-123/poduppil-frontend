@@ -3,50 +3,26 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ReturnButton from "../../CommonComponents/Return/ReturnButton";
 import Dropdown from "../../CommonComponents/Dropdown/Dropdown";
 import { axiosAdmin } from "../../../Api/Api";
-import Buttons from "../../CommonComponents/Button/Buttons";
-import AddMaterialModal from "./AddMaterialModal";
 import TextFields from "../../CommonComponents/TextFields/TextFields";
-import PurchaseTable from "./PurchaseTable";
-import Swal from "sweetalert2";
-import toast, { Toaster } from "react-hot-toast";
 import Nodata from "../../CommonComponents/Nodata/Nodata";
-import AddCareOfModal from "./AddCareOfModal";
-import moment from "moment"
-import { Box, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
-
+import Footer from "../Footer/Footer";
+import Materials from "./Materials";
+import { FaArrowRight } from "react-icons/fa";
+import Button from "@mui/material/Button";
 
 function PurchaseMaterial() {
   const location = useLocation();
   const navigate = useNavigate();
   const [projectname, setProjectName] = useState("");
   const [projectData, setProjectData] = useState("");
-  const [MaterialData, setMaterialData] = useState("");
-  const [MaterialName, setMaterialName] = useState("");
-  const [quantity, setQuantity] = useState();
-  const [selectedValues, setSelectedValues] = useState([]);
-  const [Rate, setRate] = useState();
-  const [table, setTable] = useState(false);
   const [date, setDate] = useState();
-  const [careof, setCareOf] = useState("");
-  const [CareofData, setCareOfData] = useState("");
 
   const handleDataReceived = (projectname) => {
     setProjectName(projectname);
   };
 
-  const handleQuantitychange = (e) => {
-    setQuantity(e.target.value);
-  };
-
-  const handleRatechange = (e) => {
-    setRate(e.target.value);
-  };
   const handleDatechange = (e) => {
     setDate(e.target.value);
-  };
-  const handleCareOfchange = (e) => {
-    const selectedCareOfname = e.target.value;
-    setCareOf(selectedCareOfname);
   };
 
   const fetchData = async () => {
@@ -55,286 +31,67 @@ function PurchaseMaterial() {
       setProjectData(response?.data?.FindProject);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login")
+        window.location.replace("/admin/login");
       }
     }
   };
 
-  const fetchMaterialData = async () => {
-    try {
-      const response = await axiosAdmin.get("allmateriallist");
-     
-
-      setMaterialData(response?.data?.allMaterials);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login")
-      }
-    }
-  };
-  const fetchCareOfData = async () => {
-    try {
-      const response = await axiosAdmin.get("getcareof"); 
-      setCareOfData(response?.data?.allCareOfs);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login")
-      }
-    }
-  };
-
-  const handleMaterialSubmit = async () => {
-    try {
-      const formattedDate = moment(date).format("YYYY-MM-DD");
-      Swal.fire({
-        title: "Purchase Material ?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Purchase!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const response = axiosAdmin.post("/purchasematerial", {
-            materials: selectedValues,
-            projectname,
-            date:formattedDate
-          });
-          setProjectData(response?.data?.FindProject);
-          Swal.fire({ title: "Material Purchased", icon: "success" }).then(
-            () => {
-              navigate("/admin/projectlist");
-            }
-          );
-        }
-      });
-
-      
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login")
-      }
-    }
-  };
-
-  //data displaying when mounting
   useEffect(() => {
     fetchData();
-    fetchMaterialData();
-    fetchCareOfData()
-  }, [MaterialName, MaterialData,careof,CareofData]);
+  }, []);
 
-  const handleChange = (e) => {
-    const selectedMaterialname = e.target.value;
-    setMaterialName(selectedMaterialname);
+  const hadlePurchase = () => {
+    navigate('/admin/materialpurchase', { state: { projectname, date } });
   };
-
-  const handleMaterials = (material, quantity, rate, careof) => {
-    if (material && quantity && rate && careof) {
-      setTable(true);
-
-      const newMaterial = {
-        name: material,
-        careof: careof,
-        quantity: quantity,
-        baseRate: rate,
-        total: rate * quantity,
-      };
-
-      setSelectedValues((prevSelectedValues) => [
-        ...prevSelectedValues,
-        newMaterial,
-      ]);
-      // Clear the input fields after submission
-      setMaterialName("");
-      setCareOf("");
-      setQuantity("");
-      setRate("");
-      toast.success("Material added successfully!");
-
-    } else {
-      toast.error("Please fill in all fields before submission.");
-    }
-  };
-
-  const handleDelete = (index) => {
-    const updatedValues = [...selectedValues];
-    updatedValues.splice(index, 1);
-    setSelectedValues(updatedValues);
-  };
-
 
   return (
-    <div>
-      <Toaster position="top-center" reverseOrder={false} />
-      <ReturnButton navigation={"/admin/projectlist"}/>
-      <div></div>
+    <div className="flex flex-col justify-between min-h-screen">
+      <div>
+        <ReturnButton navigation={"/admin/projectlist"} />
+      </div>
+      <div className="mt-14">
+        {projectData && projectData.length > 0 ? (
+          <div>
+            <p className="text-sm text-red-500 flex justify-center">
+              Please select a project and a purchase date to continue.
+            </p>
 
-      {projectname && date ? (
-        <>
-        <div className="flex justify-around">
-          <p className="font-bold ">DATE&nbsp;:&nbsp;&nbsp; {date}</p>
-        <p className="font-bold uppercase">
-            {" "}
-            PROJECT : &nbsp;&nbsp; {projectname}
-          </p>
-        </div>
-        
-          <div className="flex justify-center flex-wrap gap-4 mt-8">
-            <div className="flex flex-row gap-6">
-              {MaterialData?.length > 0 ? (
-                <Box className="sm:w-96 w-80">
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      SELECT MATERIAL
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={MaterialName}
-                      label="SELECT MATERIAL"
-                      onChange={handleChange}
-                    >
-                      {MaterialData.map((item) => (
-                        <MenuItem key={item.name} value={item.name}>
-                          {item.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Box>
-              ) : (
-                <Box className="sm:w-96 w-80">
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      No materials found
-                    </InputLabel>
-                    <Select
-                      id="demo-simple-select"
-                      label="SELECT PROJECT"
-                      disabled
-                    >
-                      <MenuItem>No materials found</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-              )}
-               <div className="mt-3">
-              <AddMaterialModal />
-            </div>
-            </div>
-
-            <div className="flex flex-row gap-6">
-              {CareofData?.length > 0 ? (
-                <Box className="sm:w-96 w-80">
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      SELECT CARE OF
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={careof}
-                      label="SELECT CARE OF"
-                      onChange={handleCareOfchange}
-                    >
-                      {CareofData.map((item) => (
-                        <MenuItem key={item.name} value={item.name}>
-                          {item.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Box>
-              ) : (
-                <Box className="sm:w-96 w-80">
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      No careOf found
-                    </InputLabel>
-                    <Select
-                      id="demo-simple-select"
-                      label="SELECT CARE OF"
-                      disabled
-                    >
-                      <MenuItem>No Careof found</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-              )}
-               <div className="mt-3">
-              <AddCareOfModal />
-            </div>
-            </div>
-            </div>
-            <div className="mt-4 flex flex-wrap sm:pl-44 pl-6">
-            <div>
-            <TextFields
-              name="Quantity"
-              value={quantity}
-              type="number"
-              onChange={handleQuantitychange}
-            />
-            </div>
-            <div className="w-[90px]"></div>
-            <div className="">
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
               <TextFields
-                name="BaseRate"
-                value={Rate}
-                type="number"
-                onChange={handleRatechange}
+                name="Purchase date"
+                type="date"
+                input={true}
+                onChange={handleDatechange}
               />
-            </div>
-            </div>
-          <div className=" flex justify-center mt-2">
-            <Buttons
-              name="SUBMIT"
-              click={() =>
-                handleMaterials(MaterialName, quantity, Rate, careof)
+              <Dropdown
+                projects={projectData}
+                onDataPassed={handleDataReceived}
+              />
+              {
+                projectname && date ?
+                <Button variant="contained" className="w-44 h-14"  style={{ backgroundColor: 'green', color: 'white' }} onClick={hadlePurchase} endIcon={<FaArrowRight />}>
+                Purchase
+              </Button>:""
               }
-            />
-          </div>
-
-          {table ? (
-            <>
-              <div className="flex justify-center">
-                <PurchaseTable values={selectedValues} handleDelete={handleDelete} />
-              </div>
-              <div className="flex justify-center mt-10">
-                <Buttons name="SUBMIT" click={handleMaterialSubmit} />
-              </div>
-            </>
-          ) : (
-            ""
-          )}
-        </>
-      ) : (
-        <>
-          {projectData && projectData.length > 0 ? (
-            <div>
-              <p className="text-sm text-red-500 mt-2 flex justify-center">
-                Please select a project and a purchase date to continue.
-              </p>
-
-              <div className="flex flex-wrap justify-center gap-4 mt-8">
-                <TextFields
-                  name="Purchase date"
-                  type="date"
-                  input={true}
-                  onChange={handleDatechange}
-                />
-                <Dropdown
-                  projects={projectData}
-                  onDataPassed={handleDataReceived}
-                />
-              </div>
+            
             </div>
-          ) : (
-            <Nodata/>
-          )}
-        </>
-      )}
+          </div>
+        ) : (
+          <Nodata />
+        )}
+      </div>
+      <div className="mb-14 mt-14">
+        <h1 className="flex justify-center text-3xl uppercase">
+          All Materials
+        </h1>
+        <div className="mt-8">
+        <Materials />
+        </div>
+       
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }

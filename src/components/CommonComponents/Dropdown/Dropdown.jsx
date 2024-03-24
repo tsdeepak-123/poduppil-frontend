@@ -8,7 +8,7 @@ function Dropdown({ projects, onDataPassed }) {
 
   const handleChange = (event, newValue) => {
     if (newValue) {
-      setSelectedProject(newValue.name);
+      setSelectedProject(newValue); // Set the entire option object
       onDataPassed(newValue.name);
     } else {
       setSelectedProject(null);
@@ -22,7 +22,7 @@ function Dropdown({ projects, onDataPassed }) {
         value={selectedProject}
         onChange={handleChange}
         options={projects}
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={(option) => option.name || ''}
         renderInput={(params) => (
           <TextField {...params} label="SELECT PROJECT" variant="outlined" />
         )}

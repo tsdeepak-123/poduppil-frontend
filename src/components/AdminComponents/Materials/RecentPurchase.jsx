@@ -64,7 +64,8 @@ function RecentPurchase() {
       }
     }
   };
-
+ 
+  console.log(filteredPurchaseData);
 
   return (
     <>
@@ -117,7 +118,15 @@ function RecentPurchase() {
                       <td className="px-6 py-4">
                         {moment(purchase.date).format("DD-MM-YYYY")}
                       </td>
-                      <td className="px-6 py-4">{purchase.careof}</td>
+                      <td className="px-6 py-4">
+                        <ul>
+                          {purchase.Material.map((material, index) => (
+                            <li key={index}>
+                              {material.careof}
+                            </li>
+                          ))}
+                        </ul>
+                      </td>
                       <td className="px-6 py-4">
                         <ul>
                           {purchase.Material.map((material, index) => (
