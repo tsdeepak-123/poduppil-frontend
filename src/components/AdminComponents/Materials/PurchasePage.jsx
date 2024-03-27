@@ -24,6 +24,8 @@ function PurchasePage() {
  const [careof, setCareOf] = useState("");
  const [table, setTable] = useState(false);
  const [selectedValues, setSelectedValues] = useState([]);
+ const [materialResetKey, setMaterialResetKey] = useState(0);
+ const [careOfResetKey, setCareOfResetKey] = useState(0);
 
  const handleMaterialChange = (material) => {
     setMaterialName(material);
@@ -57,15 +59,25 @@ function PurchasePage() {
       ...prevSelectedValues,
       newMaterial,
     ]);
-    // Clear the input fields after submission
-    setMaterialName("");
-    setCareOf("");
-    setQuantity( "");
-    setRate( "");
+
+    // Reset all fields including dropdowns after submission
+    resetAllFields();
     toast.success("Material added successfully!");
   } else {
     toast.error("Please fill in all fields before submission.");
   }
+};
+
+
+const resetAllFields = () => {
+  setMaterialName("");
+  setCareOf("");
+  setQuantity("");
+  setRate("");
+
+  // Increment the keys to trigger a remount of the dropdown components
+  setMaterialResetKey(prevKey => prevKey + 1);
+  setCareOfResetKey(prevKey => prevKey + 1);
 };
 
 
@@ -123,10 +135,10 @@ function PurchasePage() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="mx-4">
-            <MaterialListDropdown onDataPassed={handleMaterialChange} />
+          <MaterialListDropdown key={`material-dropdown-${materialResetKey}`} onDataPassed={handleMaterialChange} />
           </div>
           <div className="mx-4">
-            <CareofDropdown onDataPassed={handleCareOfChange} />
+          <CareofDropdown key={`careof-dropdown-${careOfResetKey}`} onDataPassed={handleCareOfChange} />
           </div>
           <div>
             <TextFields
