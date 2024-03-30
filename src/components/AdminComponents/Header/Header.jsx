@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AdminAction } from '../../../Stores/AdminAuth';
 import { useCookies } from 'react-cookie';
-import { Toaster, toast } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { FaHome } from "react-icons/fa";
+import { MdAddShoppingCart } from "react-icons/md";
 
 function Header({ headers }) {
   const navigate = useNavigate();
@@ -21,6 +21,9 @@ function Header({ headers }) {
   const handleDashboard = () => {
     navigate('/admin/dashboard');
   };
+  const handlePurchase = () => {
+    navigate('/admin/projectlist');
+  };
 
   return (
     <div>
@@ -34,6 +37,9 @@ function Header({ headers }) {
         <div className='mt-16 flex flex-row gap-8 '>
           <div className='cursor-pointer mt-1 text-blue-500'>
           <FaHome className='w-6 h-6' onClick={handleDashboard}/>
+          </div>
+          <div className='cursor-pointer mt-1 text-blue-500'>
+          <MdAddShoppingCart className='w-6 h-6' onClick={handlePurchase}/>
           </div>
           <div>
           <Button startIcon={<PowerSettingsNewIcon />} style={{ color: "red" }} onClick={handleLogout}>

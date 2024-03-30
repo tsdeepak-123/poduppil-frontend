@@ -15,6 +15,7 @@ function SingleView({ id }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [materialData, setMaterialData] = useState(null);
+  const [materialTotal, setMaterialTotal] = useState(0);
   const [filteredMaterialData, setFilteredMaterialData] = useState([]);
 
   const fetchMaterialData = async () => {
@@ -23,6 +24,7 @@ function SingleView({ id }) {
         `PurchaseBillById?projectid=${id}&page=${currentPage}&limit=10&searchTerm=${searchTerm}`
       );
       setMaterialData(response?.data?.PurchaseData);
+      setMaterialTotal(response?.data?.totalPurchaseAmount);
       setTotalPages(Math.ceil(response?.data?.totalCount / 10)); // Assuming limit is 10
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -45,7 +47,7 @@ function SingleView({ id }) {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset current page when performing a new search
+    setCurrentPage(1); 
   };
 
   const handlePurchase = () => {
@@ -111,6 +113,7 @@ function SingleView({ id }) {
         <div>
           <Buttons name="MATERIAL PURCHASE" click={handlePurchase} />
         </div>
+        <div className="font-bold text-1xl">Total : <span className="text-red-500 font-bold text-2xl">{Math.floor(materialTotal)}</span></div>
       </div>
 
       <div className="flex justify-center mt-8">
