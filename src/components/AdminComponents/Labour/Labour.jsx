@@ -22,7 +22,12 @@ function Labour() {
 
   const fetchData = async () => {
     try {
-      const response = await axiosAdmin.get(`labourslist?page=${currentPage}&searchTerm=${searchTerm}`);
+      let currentPageToUpdate = currentPage;
+      if (searchTerm !== '') {
+        setCurrentPage(1);
+        let currentPageToUpdate = currentPage;
+    }
+      const response = await axiosAdmin.get(`labourslist?page=${currentPageToUpdate}&searchTerm=${searchTerm}`);
       setLabourData(response.data.allLabourData);
       setTotalPages(Math.ceil(response.data.totalCount / 10)); // Assuming 10 items per page
     } catch (error) {

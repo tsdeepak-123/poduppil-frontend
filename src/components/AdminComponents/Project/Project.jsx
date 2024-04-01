@@ -20,23 +20,30 @@ function Project() {
 
   const fetchProjects = async () => {
     try {
-      setLoading(true);
-      const response = await axiosAdmin.get("projectList", {
-        params: {
-          status: false,
-          page: currentPage,
-          searchTerm: searchTerm,
-        },
-      });
-      setProjectData(response.data.FindProject);
-      setTotalPages(Math.ceil(response.data.totalCount / 10)); // Assuming 10 items per page
-      setLoading(false);
+        setLoading(true);
+        let currentPageToUpdate = currentPage; // Store the current page before any update
+        if (searchTerm !== '') {
+            // If a new search query is entered, reset the current page to 1
+            setCurrentPage(1);
+            currentPageToUpdate = 1;
+        }
+        const response = await axiosAdmin.get("projectList", {
+            params: {
+                status: false,
+                page: currentPageToUpdate,
+                searchTerm: searchTerm,
+            },
+        });
+        setProjectData(response.data.FindProject);
+        setTotalPages(Math.ceil(response.data.totalCount / 10)); // Assuming 10 items per page
+        setLoading(false);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location.replace("/admin/login");
-      }
+        if (error.response && error.response.status === 401) {
+            window.location.replace("/admin/login");
+        }
     }
-  };
+};
+
 
   useEffect(() => {
     fetchProjects();

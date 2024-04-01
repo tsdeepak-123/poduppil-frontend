@@ -31,7 +31,12 @@ function StaffDisplay() {
   // fetching data from backend with pagination and search
   const fetchData = async () => {
     try {
-      const response = await axiosAdmin.get(`staffslist?page=${currentPage}&searchTerm=${searchTerm}`);
+      let currentPageToUpdate = currentPage;
+      if (searchTerm !== '') {
+        setCurrentPage(1);
+        let currentPageToUpdate = currentPage;
+    }
+      const response = await axiosAdmin.get(`staffslist?page=${currentPageToUpdate}&searchTerm=${searchTerm}`);
       setStaffData(response?.data?.allStaffData);
       setTotalPages(Math.ceil(response.data.totalCount / 10)); // Assuming 10 items per page
     } catch (error) {

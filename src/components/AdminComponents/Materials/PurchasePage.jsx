@@ -107,7 +107,7 @@ const resetAllFields = () => {
           date: formattedDate,
         });
 
-        if (response.data.success) {
+        if (response?.data?.success) {
           Swal.fire({ title: "Material Purchased", icon: "success" }).then(
             () => {
               navigate("/admin/projectlist");
@@ -118,7 +118,7 @@ const resetAllFields = () => {
         }
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         window.location.replace("/admin/login");
       }
     }
@@ -127,7 +127,7 @@ const resetAllFields = () => {
  return (
     <div className="flex flex-col justify-between min-h-screen">
       <Toaster position="top-center" reverseOrder={false}/>
-      <ReturnButton/>
+      <ReturnButton navigation={'/admin/purchasematerial'}/>
       <div className="flex flex-col justify-center items-center ">
         <div className="flex justify-center gap-24 items-center mb-14">
           <h2 className="">{projectname}</h2>
