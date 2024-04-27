@@ -51,6 +51,7 @@ import OwnerExpenseList from '../pages/AdminPages/Office/Owner/OwnerExpenseList'
 import CreditBalance from '../pages/AdminPages/Office/CareOf/CreditBalance'
 import MaterialsByCareOf from '../pages/AdminPages/Materials/MaterialsByCareOf'
 import PurchaseMaterials from '../pages/AdminPages/Materials/PurchaseMaterials'
+import ReportPage from '../pages/AdminPages/Office/Report/ReportPage'
 
 function AdminRoutes() {
   const [cookies, setCookies] = useCookies(['AdminsecretKey']);
@@ -123,6 +124,7 @@ function AdminRoutes() {
        <Route path='/creditbalance' element={adminToken?<CreditBalance/>:<LoginPage/>}/>
        <Route path='/materialpurchasebycredit' element={adminToken?<MaterialsByCareOf/>:<LoginPage/>}/>
        <Route path='/materialpurchase' element={adminToken?<PurchaseMaterials/>:<LoginPage/>}/>
+       <Route path='/workreport' element={adminToken?<ReportPage/>:<LoginPage/>}/>
     </Routes>
     </div>
   )
