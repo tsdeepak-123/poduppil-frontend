@@ -6,13 +6,11 @@ import Completed from './Completed'
 
 function ProjectDisplay() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
       <Header headers="PROJECT MANAGEMENT"/>
       <Project/>
-      <div className='mt-56'>
       <Footer/>
       </div>
-    </div>
   )
 }
 

@@ -5,13 +5,11 @@ import CompletedContracts from '../../../components/AdminComponents/Contract/Com
 
 function ContractsCompleted() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
    <Header headers="COMPLETED CONTRACTS"/>
    <CompletedContracts/>
-   <div className='mt-72'>
    <Footer/>
    </div>
-    </div>
   )
 }
 

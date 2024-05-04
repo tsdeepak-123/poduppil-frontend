@@ -5,10 +5,9 @@ import AdvanceHistory from '../../../components/AdminComponents/Viewsalary/Advan
 
 function Advance() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
         <Header headers={"ADVANCE HISTORY"}/>
         <AdvanceHistory/>
-        <div className='mb-48'></div>
         <Footer/>
     </div>
   )

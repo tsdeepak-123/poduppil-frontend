@@ -5,10 +5,9 @@ import AddStaff from '../../../components/AdminComponents/Staffs/AddStaff';
 
 function EditStaff() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
         <Header headers="EDIT STAFF"/>
         <AddStaff/>
-        <div className="mb-6"></div>
         <Footer />
     </div>
   )

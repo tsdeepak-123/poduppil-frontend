@@ -5,13 +5,11 @@ import AdminAccount from "../../../components/AdminComponents/AdminAccount/Admin
 
 function Account() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
       <Header  headers="ADMIN ACCOUNT"/>
       <AdminAccount />
-      <div className="mt-52">
         <Footer />
       </div>
-    </div>
   );
 }
 

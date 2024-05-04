@@ -6,13 +6,10 @@ import Footer from '../../../components/AdminComponents/Footer/Footer'
 
 const StaffAttendance = () => {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
          <Header headers="STAFF ATTENDENCE SHEET"/>
     <StaffAttendanceSheet/>
-    <div className='mt-56'>
     <Footer/>
-    </div>
-    
     </div>
   )
 }

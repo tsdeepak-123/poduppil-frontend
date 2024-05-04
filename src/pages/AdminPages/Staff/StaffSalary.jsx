@@ -6,7 +6,7 @@ import StaffSalarys from'../../../components/AdminComponents/Viewsalary/StaffSal
 
 function StaffSalary() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
         <Header headers='STAFF SALARY DETAILS'/>
         <StaffSalarys/>
         <Footer/>

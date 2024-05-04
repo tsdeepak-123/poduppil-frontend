@@ -16,7 +16,7 @@ import Addbills from '../pages/AdminPages/Office/Addbills'
 import EditBills from '../pages/AdminPages/Office/EditBills'
 import ProjectAdding from '../pages/AdminPages/Project/ProjectAdding'
 import StaffAdding from '../pages/AdminPages/Staff/StaffAdding'
-import ProjectLists from '../pages/AdminPages/Project/ProjectLists'
+import ProjectLists from '../pages/AdminPages/Materials/ProjectLists'
 import LabourAttendance from '../pages/AdminPages/Office/LabourAttendance'
 import BillSingleView from '../pages/AdminPages/Office/BillSingleView'
 import StaffAttendance from '../pages/AdminPages/Office/StaffAttendance'
@@ -116,7 +116,7 @@ function AdminRoutes() {
        <Route path='/staffattendencesingle' element={adminToken?<Attendence/>:<LoginPage/>}/>
        <Route path='/completedcontracts' element={adminToken?<ContractsCompleted/>:<LoginPage/>}/>
        <Route path='/recievedcash' element={adminToken?<RecievedCashes/>:<LoginPage/>}/>
-       <Route path='/adminaacount' element={adminToken?<Account/>:<LoginPage/>}/>
+       <Route path='/adminaccount' element={adminToken?<Account/>:<LoginPage/>}/>
        <Route path='/userhomecontroll' element={adminToken?<UserHomeControll/>:<LoginPage/>}/>
        <Route path='/careofpayments' element={adminToken?<CareOfPayments/>:<LoginPage/>}/>
        <Route path='/advancehistory' element={adminToken?<Advance/>:<LoginPage/>}/>

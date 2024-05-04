@@ -5,13 +5,11 @@ import Footer from '../../../components/AdminComponents/Footer/Footer'
 
 function LabourControll() {
   return (
-    <div className=''>
+    <div className="flex flex-col justify-between min-h-screen">
       <Header headers="LABOUR MANAGEMENT"/>
       <Labour/>
-      <div className='mt-56'>
       <Footer/>
       </div> 
-    </div>
   )
 }
 

@@ -5,10 +5,9 @@ import Footer from '../../../components/AdminComponents/Footer/Footer'
 
 function ContractAdding() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
       <Header headers="ADD CONTRACT DETAILS"/>
       <AddContract/>
-      <div className='mb-24'></div>
       <Footer/>
     </div>
   )

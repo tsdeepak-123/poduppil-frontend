@@ -5,9 +5,11 @@ import Header from '../../../components/AdminComponents/Header/Header'
 
 function AdminDashboard() {
   return (
-    <div >
+    <div className='flex flex-col justify-between min-h-screen'>
       <Header headers="DASHBOARD"/>
+      <div></div>
         <Dashboard/>  
+        <Footer />
     </div>
   )
 }

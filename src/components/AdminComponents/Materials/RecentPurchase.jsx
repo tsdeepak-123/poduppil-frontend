@@ -84,6 +84,8 @@ function RecentPurchase() {
       {loading ? (
         <Loading />
       ) : (
+        <>
+        <p className='flex justify-center font-serif mt-14 font-bold text-[30px]'>Recent Purchase</p>
         <div className="relative overflow-x-scroll overflow-y-scroll shadow-md sm:rounded-lg mt-11 ms-6 me-6 max-h-[500px]">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -157,6 +159,7 @@ function RecentPurchase() {
             </tbody>
           </table>
         </div>
+        </>
       )}
     </>
   );

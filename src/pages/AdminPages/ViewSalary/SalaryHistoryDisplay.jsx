@@ -5,14 +5,12 @@ import SalaryHistory from '../../../components/AdminComponents/Viewsalary/Salary
 
 function SalaryHistoryDisplay() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
 <Header headers='SALARY HISTORY'/>
 <SalaryHistory/>
-<div className='mt-60'>
 <Footer/>
 </div>
 
-    </div>
   )
 }
 

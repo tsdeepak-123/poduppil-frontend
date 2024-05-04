@@ -4,14 +4,11 @@ import Contract from '../../../components/AdminComponents/Contract/Contract'
 import Footer from '../../../components/AdminComponents/Footer/Footer'
 function ContractControll() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
        <Header headers="CONTRACT WORKS MANAGEMENT"/>
       <Contract/>
-      <div className='mt-56'>
       <Footer/>
       </div>
-     
-    </div>
   )
 }
 

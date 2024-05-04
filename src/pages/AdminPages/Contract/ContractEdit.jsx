@@ -7,10 +7,9 @@ import Footer from '../../../components/AdminComponents/Footer/Footer'
 const ContractEdit = () => {
   return (
     
-     <div>
+     <div className="flex flex-col justify-between min-h-screen">
      <Header headers="EDIT CONTRACT DETAILS"/>
      <EditContract/>
-     <div className='mb-24'></div>
      <Footer/>
    </div>
   )

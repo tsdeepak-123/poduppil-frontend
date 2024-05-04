@@ -6,7 +6,7 @@ import AddProject from "../../../components/AdminComponents/Project/AddProject";
 
 function ProjectEditing() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
         <Header headers="EDIT PROJECT"/>
             <AddProject />
              <div className="mb-24"></div>

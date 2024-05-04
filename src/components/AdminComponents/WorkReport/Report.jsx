@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import downloadPdf from './downloadPDF';
 import ReturnButton from '../../CommonComponents/Return/ReturnButton';
+
 
 function Report() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [loading, setLoading] = useState(false);
     const [selectedReport, setSelectedReport] = useState('');
+    
 
     const handleDownloadPdf = (reportType) => {
         setLoading(true);
@@ -23,7 +25,7 @@ function Report() {
             <div className="mb-4">
                 <select value={selectedReport} onChange={(e) => setSelectedReport(e.target.value)} className="p-2 border border-gray-300 rounded">
                     <option value="">Select Report Type</option>
-                    {/* <option value="totalreport">Total Report</option> */}
+                    <option value="totalreport">Total Report</option>
                     <option value="workreport">Purchases Report</option>
                     <option value="attendancereport">Labour Attendance Report</option>
                     <option value="staffattendancereport">Staff Attendance Report</option>
@@ -40,7 +42,7 @@ function Report() {
                 <DatePicker className="p-2 border border-gray-300 rounded" selected={endDate} onChange={date => setEndDate(date)} />
             </div>
             <button 
-                className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600" 
+                className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer" 
                 onClick={() => handleDownloadPdf(selectedReport)} 
                 disabled={loading || !selectedReport}
             >

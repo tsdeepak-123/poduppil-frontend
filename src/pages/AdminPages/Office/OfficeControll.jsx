@@ -1,11 +1,10 @@
 import React from 'react'
 import Header from "../../../components/AdminComponents/Header/Header"
 import Office from '../../../components/AdminComponents/Office/Office'
-import Footer from '../../../components/AdminComponents/Footer/Footer'
 
 function OfficeControll() {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
        <Header headers="OFFICE MANAGEMENT"/>
       <Office/>
     </div>

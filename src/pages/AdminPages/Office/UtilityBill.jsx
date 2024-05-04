@@ -5,12 +5,10 @@ import Footer from '../../../components/AdminComponents/Footer/Footer'
 
 const UtilityBill = () => {
   return (
-    <div>
+    <div className="flex flex-col justify-between min-h-screen">
      <Header headers="OFFICE UTILITY BILLS"/>
      <UtilityBills/>
-     <div className='mt-60'>
       <Footer/>
-     </div>
     </div>
   )
 }

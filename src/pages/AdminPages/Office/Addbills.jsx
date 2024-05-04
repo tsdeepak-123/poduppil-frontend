@@ -5,10 +5,9 @@ import Footer from '../../../components/AdminComponents/Footer/Footer'
 
 function Addbills() {
   return (
-    <div className='overflow-hidden'>
+    <div className="flex flex-col justify-between min-h-screen">
         <Header headers="ADD YOUR BILLS"/>
       <AddBill/>
-      <div className='mb-24'></div>
       <Footer/>
     </div>
   )
