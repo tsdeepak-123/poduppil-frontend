@@ -29,6 +29,7 @@ function AddLabour() {
   const [idproof, setIdproof] = useState([]);
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [booknumber,setBooknumber] = useState(labourData?.booknumber || "");
 
   useEffect(() => {
     // You can do additional setup or data fetching here
@@ -39,6 +40,9 @@ function AddLabour() {
   };
   const handleAgeChange = (e) => {
     setAge(e.target.value);
+  };
+  const handleBookChange = (e) => {
+    setBooknumber(e.target.value);
   };
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -78,6 +82,7 @@ function AddLabour() {
          salary,
          adhar,
          date,
+         booknumber
        }
      
        const formData = new FormData();
@@ -122,7 +127,8 @@ function AddLabour() {
         pincode,
         salary,
         adhar,
-        date
+        date,
+        booknumber
       }
       const formData = new FormData();
       
@@ -171,6 +177,7 @@ function AddLabour() {
       <ReturnButton navigation={"/admin/labourdetails"}/>
       <div className='flex flex-wrap justify-around px-16 mt-24'>
         {/* Add input fields for other labour properties */}
+        <TextFields name="Book Number" type="number" value={booknumber} onChange={handleBookChange} />
         <TextFields name="Labour name" type="text" value={name} onChange={handleNameChange} />
         <TextFields name="Age" type="number" value={age} onChange={handleAgeChange} />
         <TextFields name="Phone number" type="number" value={phone} onChange={handlePhoneChange} />

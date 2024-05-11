@@ -105,6 +105,9 @@ function StaffDisplay() {
                   Sl.No
                 </th>
                 <th scope="col" class="px-6 py-3">
+                  Book Number
+                </th>
+                <th scope="col" class="px-6 py-3">
                   Staff name
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -142,6 +145,12 @@ function StaffDisplay() {
                       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
                       {index+1}
+                    </th>
+                    <th
+                      scope="row"
+                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {obj.booknumber}
                     </th>
                     <th
                       scope="row"

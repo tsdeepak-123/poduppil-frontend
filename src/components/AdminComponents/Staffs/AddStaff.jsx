@@ -16,6 +16,7 @@ function AddStaff() {
    
   const [name, setName] = useState(staffData?.name || "");
   const [age, setAge] = useState(staffData?.age || "");
+  const [booknumber, setbookNumber] = useState(staffData?.booknumber || "");
   const [phone, setPhone] = useState(staffData?.phone || "");
   const [street, setStreet] = useState(staffData?.address?.[0]?.street || "");
   const [post, setPost] = useState(staffData?.address?.[0]?.post || "");
@@ -35,6 +36,9 @@ function AddStaff() {
     }
     const handleAgeChange=(e)=>{
       setAge(e.target.value)
+    } 
+    const handleBookChange=(e)=>{
+      setbookNumber(e.target.value)
     } 
     const handlePhoneChange=(e)=>{
       setPhone(e.target.value)
@@ -101,6 +105,7 @@ function AddStaff() {
           salary,
           adhar,
           date,
+          booknumber
         }
       
         const formData = new FormData();
@@ -145,7 +150,8 @@ function AddStaff() {
         pincode,
         salary,
         adhar,
-        date
+        date,
+        booknumber
       }
       const formData = new FormData();
       
@@ -187,9 +193,10 @@ function AddStaff() {
   <ReturnButton navigation={"/admin/staffdetails"}/>
    <div>
     <form action='' className='flex flex-wrap justify-around px-16 mt-24' onSubmit={handleSubmit}>
+      <TextFields name="Book Number" type="text" value={booknumber} onChange={handleBookChange}/>
       <TextFields name="Staff name" type="text" value={name} onChange={handleNameChange}/>
       <TextFields name="Age" type="number" value={age} onChange={handleAgeChange}/>
-      <TextFields name="Phone number" type="number  " value={phone} onChange={handlePhoneChange}/>
+      <TextFields name="Phone number" type="number" value={phone} onChange={handlePhoneChange}/>
       <TextFields name="Street name" type="text" value={street} onChange={handleStreetChange}/>
       <TextFields name="Post office" type="text" value={post} onChange={handlePostChange}/>
       <TextFields name="Town" type="text" value={town} onChange={handleTownChange}/>
